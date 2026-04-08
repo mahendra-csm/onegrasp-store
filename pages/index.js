@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
 
 const products = [
   {
@@ -10,7 +11,6 @@ const products = [
     price: 1,
     gradient: "linear-gradient(135deg, #1e3a5f 0%, #D42626 100%)",
     bannerLabel: "Research Guide",
-    paymentLink: "https://rzp.io/rzp/a0AJLnLf",
     bannerIcon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
@@ -27,10 +27,9 @@ const products = [
     headline: "Find Your Perfect Research Topic",
     adCopy:
       "Handpicked, trending research topics across all academic domains. Stop wasting time searching — get a curated list with domain insights and scope suggestions.",
-    price: 1,
+    price: 2,
     gradient: "linear-gradient(135deg, #1a1a2e 0%, #8B1A1A 100%)",
     bannerLabel: "100+ Topics",
-    paymentLink: "https://rzp.io/rzp/ATDmGXva",
     bannerIcon: (
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <line x1="8" y1="6" x2="21" y2="6" />
@@ -45,6 +44,138 @@ const products = [
 ];
 
 export default function Home() {
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(null); // productId being processed
+  const [successProduct, setSuccessProduct] = useState(null); // product name after success
+
+  // Load Razorpay checkout script once
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  // Auto-redirect back to products after showing thank-you
+  useEffect(() => {
+    if (!successProduct) return;
+    const timer = setTimeout(() => setSuccessProduct(null), 5000);
+    return () => clearTimeout(timer);
+  }, [successProduct]);
+
+  function validateEmail(val) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+  }
+
+  async function handleShopNow(product) {
+    // Validate email
+    if (!email.trim()) {
+      setEmailError("Please enter your email before purchasing.");
+      document.getElementById("email-input").focus();
+      return;
+    }
+    if (!validateEmail(email)) {
+      setEmailError("Please enter a valid email address.");
+      document.getElementById("email-input").focus();
+      return;
+    }
+    setEmailError("");
+    setLoading(product.id);
+
+    try {
+      // Step 1: Create order
+      const orderRes = await fetch("/api/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: product.id }),
+      });
+      const orderData = await orderRes.json();
+      if (!orderRes.ok) throw new Error(orderData.error || "Failed to create order");
+
+      // Step 2: Open Razorpay checkout
+      const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "OneGrasp",
+        description: product.name,
+        order_id: orderData.orderId,
+        prefill: { email },
+        theme: { color: "#D42626" },
+        handler: async function (response) {
+          // Step 3: Verify payment and send email
+          try {
+            const verifyRes = await fetch("/api/verify-payment", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+                productId: product.id,
+                email,
+              }),
+            });
+            const verifyData = await verifyRes.json();
+            if (!verifyRes.ok) throw new Error(verifyData.error || "Verification failed");
+
+            // Step 4: Show thank-you (auto-redirects back to products after 5s)
+            setSuccessProduct(product.name);
+            setEmail("");
+          } catch (err) {
+            alert("Payment done but email delivery failed. Please contact support@onegrasp.com");
+          } finally {
+            setLoading(null);
+          }
+        },
+        modal: {
+          ondismiss: () => setLoading(null),
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      alert(err.message || "Something went wrong. Please try again.");
+      setLoading(null);
+    }
+  }
+
+  // Thank-you screen
+  if (successProduct) {
+    return (
+      <>
+        <Head>
+          <title>Thank You — OneGrasp</title>
+        </Head>
+        <div style={s.page}>
+          <div style={s.thankYouCard}>
+            <div style={s.checkCircle}>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <h1 style={s.thankTitle}>Thank You!</h1>
+            <p style={s.thankBody}>
+              Your purchase of <strong>{successProduct}</strong> was successful.
+            </p>
+            <p style={s.thankBody}>
+              The PDF has been sent to <strong>{email || "your email"}</strong>. Check your inbox (and spam folder).
+            </p>
+            <p style={s.redirectNote}>Redirecting back to products in 5 seconds…</p>
+            <button onClick={() => setSuccessProduct(null)} style={s.backBtn}>
+              Back to Products
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -54,13 +185,35 @@ export default function Home() {
       </Head>
 
       <div style={s.page}>
-        {/* Meta Ad Cards */}
         <section style={s.adsSection}>
+
+          {/* ── Email Input Banner ── */}
+          <div style={s.emailBanner}>
+            <div style={s.emailBannerInner}>
+              <div style={s.emailBannerText}>
+                <p style={s.emailBannerLabel}>Step 1 — Enter your email</p>
+                <p style={s.emailBannerSub}>Your PDF will be delivered here after payment</p>
+              </div>
+              <div style={s.emailInputWrap}>
+                <input
+                  id="email-input"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                  style={s.emailInput}
+                />
+              </div>
+            </div>
+            {emailError && <p style={s.emailError}>{emailError}</p>}
+          </div>
+
+          {/* ── Product Cards ── */}
           <div className="product-grid" style={s.adsGrid}>
             {products.map((p) => (
               <div key={p.id} style={s.adCard}>
 
-                {/* ── Ad Header ── */}
+                {/* Ad Header */}
                 <div style={s.adHeader}>
                   <div style={s.adAvatar}>
                     <span style={s.adAvatarOne}>O</span>
@@ -84,10 +237,10 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* ── Ad Copy ── */}
+                {/* Ad Copy */}
                 <p style={s.adCopy}>{p.adCopy}</p>
 
-                {/* ── Ad Banner ── */}
+                {/* Ad Banner */}
                 <div style={{ ...s.adBanner, background: p.gradient }}>
                   <div style={s.adBannerOverlay}>
                     {p.bannerIcon}
@@ -96,25 +249,32 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* ── CTA Row ── */}
+                {/* CTA Row */}
                 <div style={s.adCTARow}>
                   <div style={s.adCTAText}>
                     <div style={s.adDomain}>onegrasp.com</div>
                     <div style={s.adHeadline}>{p.headline}</div>
                   </div>
-                  <a
-                    href={p.paymentLink}
-                    style={s.shopNowBtn}
+                  <button
+                    onClick={() => handleShopNow(p)}
+                    disabled={loading === p.id}
+                    style={{
+                      ...s.shopNowBtn,
+                      opacity: loading === p.id ? 0.7 : 1,
+                      cursor: loading === p.id ? "not-allowed" : "pointer",
+                    }}
                   >
-                    Shop Now
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </svg>
-                  </a>
+                    {loading === p.id ? "Processing…" : "Shop Now"}
+                    {loading !== p.id && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
 
-                {/* ── Engagement Row ── */}
+                {/* Engagement Row */}
                 <div style={s.engagementRow}>
                   <span style={s.engBtn}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -159,6 +319,55 @@ const s = {
     alignItems: "center",
     justifyContent: "center",
     padding: "40px 24px",
+  },
+
+  /* ── Email Banner ── */
+  emailBanner: {
+    background: "#FFFFFF",
+    borderRadius: "12px",
+    padding: "20px 24px",
+    marginBottom: "24px",
+    boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
+    border: "1px solid #DAE0E8",
+  },
+  emailBannerInner: {
+    display: "flex",
+    alignItems: "center",
+    gap: "20px",
+    flexWrap: "wrap",
+  },
+  emailBannerText: { flex: 1, minWidth: "160px" },
+  emailBannerLabel: {
+    fontSize: "0.9rem",
+    fontWeight: 700,
+    color: "#0F172A",
+    margin: 0,
+    marginBottom: "2px",
+  },
+  emailBannerSub: {
+    fontSize: "0.78rem",
+    color: "#65676B",
+    margin: 0,
+  },
+  emailInputWrap: { flex: 2, minWidth: "220px" },
+  emailInput: {
+    width: "100%",
+    padding: "12px 16px",
+    borderRadius: "8px",
+    border: "1.5px solid #DAE0E8",
+    fontSize: "0.9rem",
+    fontFamily: "'Poppins', sans-serif",
+    outline: "none",
+    boxSizing: "border-box",
+    color: "#0F172A",
+    background: "#F8F9FA",
+  },
+  emailError: {
+    marginTop: "10px",
+    marginBottom: 0,
+    color: "#D42626",
+    fontSize: "0.8rem",
+    fontWeight: 600,
   },
 
   /* ── Ads Grid ── */
@@ -306,7 +515,7 @@ const s = {
   shopNowBtn: {
     background: "#D42626",
     color: "#FFFFFF",
-    textDecoration: "none",
+    border: "none",
     padding: "10px 18px",
     borderRadius: "8px",
     fontSize: "0.85rem",
@@ -338,5 +547,63 @@ const s = {
     justifyContent: "center",
     gap: "6px",
     borderRadius: "6px",
+  },
+
+  /* ── Thank You Screen ── */
+  thankYouCard: {
+    background: "#FFFFFF",
+    borderRadius: "24px",
+    padding: "56px 48px",
+    maxWidth: "480px",
+    width: "100%",
+    boxShadow: "0 4px 32px rgba(0,0,0,0.08)",
+    border: "1px solid #EEF0F4",
+    textAlign: "center",
+  },
+  checkCircle: {
+    width: "72px",
+    height: "72px",
+    background: "#16a34a",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "0 auto 28px",
+    boxShadow: "0 8px 24px rgba(22, 163, 74, 0.3)",
+  },
+  thankTitle: {
+    fontSize: "1.8rem",
+    fontWeight: 800,
+    color: "#0F172A",
+    marginBottom: "16px",
+    letterSpacing: "-0.03em",
+  },
+  thankBody: {
+    color: "#64748B",
+    fontSize: "0.95rem",
+    lineHeight: 1.7,
+    marginBottom: "12px",
+  },
+  redirectNote: {
+    color: "#94A3B8",
+    fontSize: "0.82rem",
+    marginBottom: "28px",
+    fontStyle: "italic",
+  },
+  backBtn: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "8px",
+    padding: "14px 32px",
+    background: "#D42626",
+    color: "#FFFFFF",
+    border: "none",
+    borderRadius: "10px",
+    cursor: "pointer",
+    fontWeight: 600,
+    fontSize: "0.95rem",
+    fontFamily: "'Poppins', sans-serif",
+    boxShadow: "0 4px 14px rgba(212, 38, 38, 0.25)",
+    letterSpacing: "0.01em",
   },
 };
