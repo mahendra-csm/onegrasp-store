@@ -167,7 +167,7 @@ export default function ProductPage() {
         <section style={s.videoHero}>
           <div style={s.videoBg}>
             <iframe
-              src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1&loop=1&playlist=LXb3EKWsInQ&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&playsinline=1"
+              src="https://www.youtube.com/embed/VkBnNxneA_A?autoplay=1&mute=1&loop=1&playlist=VkBnNxneA_A&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&playsinline=1"
               style={s.videoIframe}
               allow="autoplay; encrypted-media"
               title="Product background video"
