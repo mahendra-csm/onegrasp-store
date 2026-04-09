@@ -82,6 +82,18 @@ export default function Home() {
       <main>
         {/* ── Hero ── */}
         <section style={s.hero}>
+          {/* YouTube video background — autoplay, muted, looping */}
+          <div style={s.videoBg}>
+            <iframe
+              src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1&loop=1&playlist=LXb3EKWsInQ&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&playsinline=1"
+              style={s.videoIframe}
+              allow="autoplay; encrypted-media"
+              title="Hero background video"
+              frameBorder="0"
+            />
+          </div>
+          <div style={s.videoOverlay} />
+
           <div style={s.heroInner}>
             <span style={s.heroPill}>🎓 Academic Marketplace · Hyderabad, India</span>
             <h1 className="og-hero-title">
@@ -205,12 +217,40 @@ export default function Home() {
 const s = {
   /* Hero */
   hero: {
-    background: "linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #1a1a2e 100%)",
+    position: "relative",
     padding: "80px 20px 72px",
     textAlign: "center",
     overflow: "hidden",
+    minHeight: "520px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  heroInner: { maxWidth: "720px", margin: "0 auto", width: "100%" },
+  videoBg: {
+    position: "absolute",
+    top: 0, left: 0, right: 0, bottom: 0,
+    overflow: "hidden",
+    zIndex: 0,
+  },
+  videoIframe: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: "177.78vh",
+    height: "56.25vw",
+    minWidth: "100%",
+    minHeight: "100%",
+    transform: "translate(-50%, -50%)",
+    border: "none",
+    pointerEvents: "none",
+  },
+  videoOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "linear-gradient(135deg, rgba(15,23,42,0.88) 0%, rgba(30,41,59,0.82) 50%, rgba(26,26,46,0.90) 100%)",
+    zIndex: 1,
+  },
+  heroInner: { maxWidth: "720px", margin: "0 auto", width: "100%", position: "relative", zIndex: 2 },
   heroPill: {
     display: "inline-block",
     background: "rgba(212,38,38,0.15)",

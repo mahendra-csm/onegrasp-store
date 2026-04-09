@@ -163,6 +163,26 @@ export default function ProductPage() {
       <Navbar />
 
       <main style={s.main}>
+        {/* ── Video Hero Banner ── */}
+        <section style={s.videoHero}>
+          <div style={s.videoBg}>
+            <iframe
+              src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1&loop=1&playlist=LXb3EKWsInQ&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&playsinline=1"
+              style={s.videoIframe}
+              allow="autoplay; encrypted-media"
+              title="Product background video"
+              frameBorder="0"
+            />
+          </div>
+          <div style={s.videoOverlay} />
+          <div style={{ position: "absolute", inset: 0, background: product.gradient, opacity: 0.6, zIndex: 2 }} />
+          <div style={s.videoHeroContent}>
+            <span style={s.videoHeroBadge}>{product.badge}</span>
+            <h1 style={s.videoHeroTitle}>{product.name}</h1>
+            <p style={s.videoHeroTagline}>{product.tagline}</p>
+          </div>
+        </section>
+
         {/* Breadcrumb */}
         <div style={s.breadBar}>
           <div style={s.breadInner}>
@@ -343,6 +363,79 @@ export default function ProductPage() {
 
 const s = {
   main: { background: "#F8F9FA", minHeight: "100vh", overflow: "hidden" },
+
+  /* Video Hero Banner */
+  videoHero: {
+    position: "relative",
+    height: "300px",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  videoBg: {
+    position: "absolute",
+    top: 0, left: 0, right: 0, bottom: 0,
+    overflow: "hidden",
+    zIndex: 0,
+  },
+  videoIframe: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    width: "177.78vh",
+    height: "56.25vw",
+    minWidth: "100%",
+    minHeight: "100%",
+    transform: "translate(-50%, -50%)",
+    border: "none",
+    pointerEvents: "none",
+  },
+  videoOverlay: {
+    position: "absolute",
+    inset: 0,
+    background: "rgba(5, 10, 25, 0.65)",
+    zIndex: 1,
+  },
+  videoHeroContent: {
+    position: "relative",
+    zIndex: 3,
+    textAlign: "center",
+    padding: "0 20px",
+    maxWidth: "700px",
+  },
+  videoHeroBadge: {
+    display: "inline-block",
+    background: "rgba(255,255,255,0.15)",
+    color: "#FFFFFF",
+    border: "1px solid rgba(255,255,255,0.3)",
+    padding: "4px 14px",
+    borderRadius: "100px",
+    fontSize: "0.7rem",
+    fontWeight: 700,
+    fontFamily: "'Poppins', sans-serif",
+    marginBottom: "12px",
+    textTransform: "uppercase",
+    letterSpacing: "0.06em",
+    backdropFilter: "blur(6px)",
+  },
+  videoHeroTitle: {
+    fontSize: "clamp(1.4rem, 3vw, 2rem)",
+    fontWeight: 800,
+    color: "#FFFFFF",
+    fontFamily: "'Poppins', sans-serif",
+    letterSpacing: "-0.03em",
+    marginBottom: "10px",
+    textShadow: "0 2px 12px rgba(0,0,0,0.4)",
+    lineHeight: 1.2,
+  },
+  videoHeroTagline: {
+    fontSize: "0.9rem",
+    color: "rgba(255,255,255,0.82)",
+    fontFamily: "'Poppins', sans-serif",
+    lineHeight: 1.6,
+    textShadow: "0 1px 6px rgba(0,0,0,0.3)",
+  },
 
   /* Breadcrumb */
   breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E2E8F0" },
