@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 const products = [
   {
@@ -27,7 +28,7 @@ const products = [
     headline: "Find Your Perfect Research Topic",
     adCopy:
       "Handpicked, trending research topics across all academic domains. Stop wasting time searching — get a curated list with domain insights and scope suggestions.",
-    price: 2,
+    price: 1,
     gradient: "linear-gradient(135deg, #1a1a2e 0%, #8B1A1A 100%)",
     bannerLabel: "100+ Topics",
     bannerIcon: (
@@ -44,10 +45,10 @@ const products = [
 ];
 
 export default function Home() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [loading, setLoading] = useState(null); // productId being processed
-  const [successProduct, setSuccessProduct] = useState(null); // product name after success
+  const [loading, setLoading] = useState(null);
 
   // Load Razorpay checkout script once
   useEffect(() => {
@@ -55,24 +56,14 @@ export default function Home() {
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
     document.body.appendChild(script);
-    return () => {
-      document.body.removeChild(script);
-    };
+    return () => document.body.removeChild(script);
   }, []);
-
-  // Auto-redirect back to products after showing thank-you
-  useEffect(() => {
-    if (!successProduct) return;
-    const timer = setTimeout(() => setSuccessProduct(null), 5000);
-    return () => clearTimeout(timer);
-  }, [successProduct]);
 
   function validateEmail(val) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
   }
 
-  async function handleShopNow(product) {
-    // Validate email
+  async function handleBuy(product) {
     if (!email.trim()) {
       setEmailError("Please enter your email before purchasing.");
       document.getElementById("email-input").focus();
@@ -87,7 +78,7 @@ export default function Home() {
     setLoading(product.id);
 
     try {
-      // Step 1: Create order
+      // Step 1: Create Razorpay order
       const orderRes = await fetch("/api/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -96,7 +87,7 @@ export default function Home() {
       const orderData = await orderRes.json();
       if (!orderRes.ok) throw new Error(orderData.error || "Failed to create order");
 
-      // Step 2: Open Razorpay checkout
+      // Step 2: Open Razorpay checkout popup
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: orderData.amount,
@@ -107,7 +98,7 @@ export default function Home() {
         prefill: { email },
         theme: { color: "#D42626" },
         handler: async function (response) {
-          // Step 3: Verify payment and send email
+          // Step 3: Verify payment + send PDF email
           try {
             const verifyRes = await fetch("/api/verify-payment", {
               method: "POST",
@@ -123,12 +114,11 @@ export default function Home() {
             const verifyData = await verifyRes.json();
             if (!verifyRes.ok) throw new Error(verifyData.error || "Verification failed");
 
-            // Step 4: Show thank-you (auto-redirects back to products after 5s)
-            setSuccessProduct(product.name);
-            setEmail("");
+            // Step 4: Save email for success page display, then redirect
+            localStorage.setItem("og_success_email", email);
+            router.push("/success");
           } catch (err) {
             alert("Payment done but email delivery failed. Please contact support@onegrasp.com");
-          } finally {
             setLoading(null);
           }
         },
@@ -143,37 +133,6 @@ export default function Home() {
       alert(err.message || "Something went wrong. Please try again.");
       setLoading(null);
     }
-  }
-
-  // Thank-you screen
-  if (successProduct) {
-    return (
-      <>
-        <Head>
-          <title>Thank You — OneGrasp</title>
-        </Head>
-        <div style={s.page}>
-          <div style={s.thankYouCard}>
-            <div style={s.checkCircle}>
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <h1 style={s.thankTitle}>Thank You!</h1>
-            <p style={s.thankBody}>
-              Your purchase of <strong>{successProduct}</strong> was successful.
-            </p>
-            <p style={s.thankBody}>
-              The PDF has been sent to <strong>{email || "your email"}</strong>. Check your inbox (and spam folder).
-            </p>
-            <p style={s.redirectNote}>Redirecting back to products in 5 seconds…</p>
-            <button onClick={() => setSuccessProduct(null)} style={s.backBtn}>
-              Back to Products
-            </button>
-          </div>
-        </div>
-      </>
-    );
   }
 
   return (
@@ -256,7 +215,7 @@ export default function Home() {
                     <div style={s.adHeadline}>{p.headline}</div>
                   </div>
                   <button
-                    onClick={() => handleShopNow(p)}
+                    onClick={() => handleBuy(p)}
                     disabled={loading === p.id}
                     style={{
                       ...s.shopNowBtn,
@@ -264,7 +223,7 @@ export default function Home() {
                       cursor: loading === p.id ? "not-allowed" : "pointer",
                     }}
                   >
-                    {loading === p.id ? "Processing…" : "Shop Now"}
+                    {loading === p.id ? "Processing…" : "Buy Now"}
                     {loading !== p.id && (
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12" />
@@ -547,63 +506,5 @@ const s = {
     justifyContent: "center",
     gap: "6px",
     borderRadius: "6px",
-  },
-
-  /* ── Thank You Screen ── */
-  thankYouCard: {
-    background: "#FFFFFF",
-    borderRadius: "24px",
-    padding: "56px 48px",
-    maxWidth: "480px",
-    width: "100%",
-    boxShadow: "0 4px 32px rgba(0,0,0,0.08)",
-    border: "1px solid #EEF0F4",
-    textAlign: "center",
-  },
-  checkCircle: {
-    width: "72px",
-    height: "72px",
-    background: "#16a34a",
-    borderRadius: "50%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "0 auto 28px",
-    boxShadow: "0 8px 24px rgba(22, 163, 74, 0.3)",
-  },
-  thankTitle: {
-    fontSize: "1.8rem",
-    fontWeight: 800,
-    color: "#0F172A",
-    marginBottom: "16px",
-    letterSpacing: "-0.03em",
-  },
-  thankBody: {
-    color: "#64748B",
-    fontSize: "0.95rem",
-    lineHeight: 1.7,
-    marginBottom: "12px",
-  },
-  redirectNote: {
-    color: "#94A3B8",
-    fontSize: "0.82rem",
-    marginBottom: "28px",
-    fontStyle: "italic",
-  },
-  backBtn: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "14px 32px",
-    background: "#D42626",
-    color: "#FFFFFF",
-    border: "none",
-    borderRadius: "10px",
-    cursor: "pointer",
-    fontWeight: 600,
-    fontSize: "0.95rem",
-    fontFamily: "'Poppins', sans-serif",
-    boxShadow: "0 4px 14px rgba(212, 38, 38, 0.25)",
-    letterSpacing: "0.01em",
   },
 };

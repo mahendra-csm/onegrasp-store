@@ -1,10 +1,37 @@
 import Head from "next/head";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Success() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [countdown, setCountdown] = useState(5);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("og_success_email") || "";
+    setEmail(stored);
+    localStorage.removeItem("og_success_email");
+  }, []);
+
+  // Countdown → redirect to home
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          router.push("/");
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <>
       <Head>
-        <title>Purchase Successful — OneGrasp</title>
+        <title>Thank You — OneGrasp</title>
       </Head>
       <div style={s.page}>
         {/* Header */}
@@ -26,10 +53,12 @@ export default function Success() {
               </svg>
             </div>
 
-            <h1 style={s.title}>Payment Successful!</h1>
+            <h1 style={s.title}>Thank You!</h1>
 
             <p style={s.body}>
-              Your PDF has been sent to your email address. Please check your inbox — and your <strong>spam/junk folder</strong> just in case.
+              Your payment was successful. The PDF has been sent to{" "}
+              <strong>{email || "your email"}</strong>. Check your inbox — and your{" "}
+              <strong>spam/junk folder</strong> just in case.
             </p>
 
             <div style={s.infoBox}>
@@ -46,13 +75,17 @@ export default function Success() {
               </p>
             </div>
 
-            <a href="/" className="back-btn" style={s.backBtn}>
+            <p style={s.redirectNote}>
+              Redirecting to home in {countdown} second{countdown !== 1 ? "s" : ""}…
+            </p>
+
+            <button onClick={() => router.push("/")} style={s.backBtn}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
               </svg>
               Back to Store
-            </a>
+            </button>
           </div>
         </main>
       </div>
@@ -147,7 +180,7 @@ const s = {
     display: "flex",
     alignItems: "flex-start",
     gap: "10px",
-    marginBottom: "32px",
+    marginBottom: "20px",
     textAlign: "left",
   },
   infoText: {
@@ -155,11 +188,18 @@ const s = {
     fontSize: "0.85rem",
     lineHeight: 1.6,
     fontWeight: 400,
+    margin: 0,
   },
   link: {
     color: "#D42626",
     textDecoration: "none",
     fontWeight: 600,
+  },
+  redirectNote: {
+    color: "#94A3B8",
+    fontSize: "0.82rem",
+    marginBottom: "28px",
+    fontStyle: "italic",
   },
   backBtn: {
     display: "inline-flex",
@@ -168,13 +208,13 @@ const s = {
     padding: "14px 32px",
     background: "#D42626",
     color: "#FFFFFF",
+    border: "none",
     borderRadius: "10px",
-    textDecoration: "none",
+    cursor: "pointer",
     fontWeight: 600,
     fontSize: "0.95rem",
     fontFamily: "'Poppins', sans-serif",
     boxShadow: "0 4px 14px rgba(212, 38, 38, 0.25)",
-    transition: "background 0.2s, transform 0.2s",
     letterSpacing: "0.01em",
   },
 };
