@@ -4,10 +4,10 @@ export default function Footer() {
   return (
     <footer style={s.footer}>
       <div style={s.inner}>
-        {/* Top grid */}
-        <div style={s.grid}>
+        {/* Grid */}
+        <div className="og-footer-grid">
           {/* Brand */}
-          <div style={s.brand}>
+          <div>
             <div style={s.logo}>
               <span style={s.logoOne}>One</span>
               <span style={s.logoGrasp}>Grasp</span>
@@ -24,26 +24,29 @@ export default function Footer() {
           {/* Products */}
           <div style={s.col}>
             <h4 style={s.colTitle}>Products</h4>
-            <Link href="/products/research-guide" style={s.colLink}>Research Programme Guide</Link>
-            <Link href="/products/research-topics" style={s.colLink}>Research Topics</Link>
+            <Link href="/products/research-guide" className="og-footer-link" style={s.colLink}>Research Programme Guide</Link>
+            <Link href="/products/research-topics" className="og-footer-link" style={s.colLink}>Research Topics</Link>
           </div>
 
           {/* Contact */}
           <div style={s.col}>
             <h4 style={s.colTitle}>Contact Us</h4>
-            <a href="mailto:support@onegrasp.com" style={s.colLink}>support@onegrasp.com</a>
-            <a href="tel:+918977760441" style={s.colLink}>+91 89777 60441</a>
-            <a href="tel:+918977760442" style={s.colLink}>+91 89777 60442</a>
-            <a href="tel:+918977760443" style={s.colLink}>+91 89777 60443</a>
-            <p style={s.address}>Hyderabad, Telangana, India</p>
+            <a href="mailto:support@onegrasp.com" className="og-footer-link" style={s.colLink}>support@onegrasp.com</a>
+            <a href="tel:+918977760441" className="og-footer-link" style={s.colLink}>+91 89777 60441</a>
+            <a href="tel:+918977760442" className="og-footer-link" style={s.colLink}>+91 89777 60442</a>
+            <a href="tel:+918977760443" className="og-footer-link" style={s.colLink}>+91 89777 60443</a>
+            <p style={s.address}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              Hyderabad, Telangana, India
+            </p>
           </div>
         </div>
 
-        {/* Divider */}
         <div style={s.divider} />
 
-        {/* Bottom bar */}
-        <div style={s.bottom}>
+        <div className="og-footer-bottom">
           <p style={s.copy}>© {new Date().getFullYear()} OneGrasp. All rights reserved.</p>
           <p style={s.copy}>Made with ❤️ in Hyderabad, India</p>
         </div>
@@ -55,8 +58,7 @@ export default function Footer() {
 const s = {
   footer: {
     background: "#0F172A",
-    color: "#94A3B8",
-    paddingTop: "64px",
+    paddingTop: "56px",
     paddingBottom: "32px",
     marginTop: "80px",
   },
@@ -65,51 +67,46 @@ const s = {
     margin: "0 auto",
     padding: "0 24px",
   },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr 1.5fr",
-    gap: "48px",
-  },
-  brand: {},
   logo: {
     display: "flex",
     alignItems: "baseline",
-    marginBottom: "16px",
+    marginBottom: "14px",
   },
   logoOne: {
-    fontSize: "1.5rem",
+    fontSize: "1.4rem",
     fontWeight: 800,
     color: "#94A3B8",
     fontFamily: "'Poppins', sans-serif",
     letterSpacing: "-0.5px",
   },
   logoGrasp: {
-    fontSize: "1.5rem",
+    fontSize: "1.4rem",
     fontWeight: 800,
     color: "#D42626",
     fontFamily: "'Poppins', sans-serif",
     letterSpacing: "-0.5px",
   },
   tagline: {
-    fontSize: "0.87rem",
+    fontSize: "0.84rem",
     lineHeight: 1.7,
     color: "#64748B",
-    marginBottom: "20px",
-    maxWidth: "320px",
+    marginBottom: "18px",
+    maxWidth: "300px",
   },
   badges: {
     display: "flex",
-    gap: "10px",
+    gap: "8px",
     flexWrap: "wrap",
   },
   badge: {
     background: "#1E293B",
     color: "#94A3B8",
-    padding: "5px 12px",
+    padding: "4px 12px",
     borderRadius: "100px",
-    fontSize: "0.75rem",
+    fontSize: "0.72rem",
     fontWeight: 500,
     border: "1px solid #334155",
+    fontFamily: "'Poppins', sans-serif",
   },
   col: {
     display: "flex",
@@ -118,7 +115,7 @@ const s = {
   },
   colTitle: {
     color: "#F1F5F9",
-    fontSize: "0.9rem",
+    fontSize: "0.88rem",
     fontWeight: 700,
     fontFamily: "'Poppins', sans-serif",
     marginBottom: "4px",
@@ -126,29 +123,25 @@ const s = {
   colLink: {
     color: "#64748B",
     textDecoration: "none",
-    fontSize: "0.85rem",
+    fontSize: "0.83rem",
     fontFamily: "'Poppins', sans-serif",
     transition: "color 0.2s",
   },
   address: {
     color: "#475569",
-    fontSize: "0.85rem",
+    fontSize: "0.83rem",
     fontFamily: "'Poppins', sans-serif",
     marginTop: "4px",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
   },
   divider: {
     borderTop: "1px solid #1E293B",
-    margin: "40px 0 24px",
-  },
-  bottom: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: "8px",
+    margin: "36px 0 22px",
   },
   copy: {
-    fontSize: "0.8rem",
+    fontSize: "0.78rem",
     color: "#475569",
     fontFamily: "'Poppins', sans-serif",
   },

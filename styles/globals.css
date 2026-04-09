@@ -6,9 +6,7 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Poppins', sans-serif;
@@ -18,97 +16,272 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ── Input focus ── */
+/* ─── Scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #F1F5F9; }
+::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 100px; }
+::-webkit-scrollbar-thumb:hover { background: #D42626; }
+
+/* ─── Input focus ────────────────────────────────── */
 input:focus {
   outline: none;
   border-color: #D42626 !important;
-  box-shadow: 0 0 0 3px rgba(212, 38, 38, 0.1) !important;
+  box-shadow: 0 0 0 3px rgba(212,38,38,0.12) !important;
 }
 
-/* ── Buy button hover ── */
-.buy-btn:hover:not(:disabled) {
-  background: #B91C1C !important;
-  transform: translateY(-2px);
-  box-shadow: 0 10px 28px rgba(212, 38, 38, 0.4) !important;
+/* ─── Navbar ─────────────────────────────────────── */
+.og-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.og-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+.og-mobile-menu { display: none; }
+.og-mobile-menu.open { display: flex; }
+
+/* ─── Hero ───────────────────────────────────────── */
+.og-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  line-height: 1.15;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+}
+.og-hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.buy-btn:active:not(:disabled) {
-  transform: translateY(0) !important;
+/* ─── Stats ──────────────────────────────────────── */
+.og-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 }
 
-/* ── Nav link hover ── */
-a[style*="color: rgb(71, 85, 105)"]:hover {
-  color: #D42626 !important;
+/* ─── Products grid ──────────────────────────────── */
+.og-products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
 }
 
-/* ── Product card hover ── */
-.product-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+/* ─── Features grid ──────────────────────────────── */
+.og-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 }
 
-/* ── View/CTA button hover ── */
-a[style*="background: rgb(212, 38, 38)"]:hover,
-a[style*='background: "#D42626"']:hover {
-  background: #B91C1C !important;
-  transform: translateY(-1px);
+/* ─── Product page layout ────────────────────────── */
+.og-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 36px;
+  align-items: start;
+}
+.og-right-col {
+  position: sticky;
+  top: 88px;
+}
+.og-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
-/* ── Footer link hover ── */
-footer a:hover {
-  color: #D42626 !important;
+/* ─── Meta row (product page) ────────────────────── */
+.og-meta-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: #F8F9FA;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  overflow: hidden;
+}
+.og-meta-divider {
+  width: 1px;
+  background: #E2E8F0;
 }
 
-/* ── Navbar hamburger (mobile) ── */
-@media (max-width: 768px) {
-  nav > div > div:nth-child(2) {
-    display: none !important;
-  }
-  nav > div > button {
-    display: flex !important;
-  }
+/* ─── Who grid ───────────────────────────────────── */
+.og-who-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
 }
 
-/* ── Responsive: product page two-col → single col ── */
-@media (max-width: 960px) {
-  .page-inner-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .right-sticky {
-    position: static !important;
-  }
+/* ─── Inside grid ────────────────────────────────── */
+.og-inside-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* ── Responsive: stats bar ── */
-@media (max-width: 640px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-  .product-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .features-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .footer-grid {
-    grid-template-columns: 1fr !important;
-  }
-  .who-grid {
-    grid-template-columns: 1fr 1fr !important;
-  }
+/* ─── Footer ─────────────────────────────────────── */
+.og-footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1.5fr;
+  gap: 48px;
+}
+.og-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* ── Scrollbar ── */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: #F1F5F9;
-}
-::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 100px;
-}
-::-webkit-scrollbar-thumb:hover {
+/* ─── Buy button ─────────────────────────────────── */
+.og-buy-btn {
+  width: 100%;
   background: #D42626;
+  color: #FFFFFF;
+  border: none;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(212,38,38,0.35);
+  margin-bottom: 16px;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.og-buy-btn:hover:not(:disabled) {
+  background: #B91C1C;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(212,38,38,0.4);
+}
+.og-buy-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+.og-buy-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ─── View/CTA button hover ──────────────────────── */
+.og-view-btn:hover { background: #B91C1C !important; transform: translateY(-1px); }
+.og-hero-btn-primary:hover { background: #B91C1C !important; transform: translateY(-1px); }
+.og-cta-btn:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,0,0,0.2) !important; }
+.og-home-btn:hover { background: #B91C1C !important; transform: translateY(-1px); }
+
+/* ─── Nav link hover ─────────────────────────────── */
+.og-nav-link:hover { color: #D42626 !important; }
+.og-footer-link:hover { color: #D42626 !important; }
+
+/* ─── Success card ───────────────────────────────── */
+.og-success-card {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 52px 48px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  border: 1px solid #E2E8F0;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — Tablet (≤ 960px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 960px) {
+  .og-page-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .og-right-col {
+    position: static;
+    order: -1; /* Buy card appears first on mobile */
+  }
+  .og-who-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .og-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — Mobile (≤ 768px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Navbar */
+  .og-nav-links { display: none; }
+  .og-hamburger { display: flex; }
+
+  /* Hero */
+  .og-hero-title { font-size: 1.9rem; }
+
+  /* Stats */
+  .og-stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Products */
+  .og-products-grid { grid-template-columns: 1fr; gap: 20px; }
+
+  /* Features */
+  .og-features-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  /* Footer */
+  .og-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .og-footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* Meta row on product page */
+  .og-meta-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .og-meta-divider { display: none; }
+
+  /* Who grid */
+  .og-who-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  /* Success card */
+  .og-success-card {
+    padding: 36px 24px;
+    border-radius: 16px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — Small Mobile (≤ 480px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .og-hero-title { font-size: 1.55rem; letter-spacing: -0.02em; }
+
+  .og-stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .og-features-grid { grid-template-columns: 1fr; }
+
+  .og-who-grid { grid-template-columns: 1fr; }
+
+  .og-meta-row { grid-template-columns: repeat(2, 1fr); }
+
+  .og-hero-btns { flex-direction: column; align-items: center; }
+  .og-hero-btns a { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
+
+  .og-footer-grid { grid-template-columns: 1fr; }
 }
