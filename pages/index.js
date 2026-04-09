@@ -208,8 +208,9 @@ const s = {
     background: "linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #1a1a2e 100%)",
     padding: "80px 20px 72px",
     textAlign: "center",
+    overflow: "hidden",
   },
-  heroInner: { maxWidth: "720px", margin: "0 auto" },
+  heroInner: { maxWidth: "720px", margin: "0 auto", width: "100%" },
   heroPill: {
     display: "inline-block",
     background: "rgba(212,38,38,0.15)",
@@ -283,9 +284,9 @@ const s = {
   },
 
   /* Sections */
-  section: { padding: "72px 20px", background: "#F8F9FA" },
-  featuresSection: { padding: "72px 20px", background: "#FFFFFF" },
-  sectionInner: { maxWidth: "1200px", margin: "0 auto" },
+  section: { padding: "72px 20px", background: "#F8F9FA", overflow: "hidden" },
+  featuresSection: { padding: "72px 20px", background: "#FFFFFF", overflow: "hidden" },
+  sectionInner: { maxWidth: "1200px", margin: "0 auto", width: "100%" },
   sectionHeader: { textAlign: "center", marginBottom: "48px" },
   pill: {
     display: "inline-block",
@@ -474,6 +475,7 @@ const s = {
     background: "linear-gradient(135deg, #D42626 0%, #B91C1C 100%)",
     padding: "72px 20px",
     textAlign: "center",
+    overflow: "hidden",
   },
   ctaInner: { maxWidth: "580px", margin: "0 auto" },
   ctaTitle: {

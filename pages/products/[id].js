@@ -342,7 +342,7 @@ export default function ProductPage() {
 }
 
 const s = {
-  main: { background: "#F8F9FA", minHeight: "100vh" },
+  main: { background: "#F8F9FA", minHeight: "100vh", overflow: "hidden" },
 
   /* Breadcrumb */
   breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E2E8F0" },
@@ -355,7 +355,7 @@ const s = {
   breadSep: { color: "#CBD5E1" },
   breadCurrent: { color: "#0F172A", fontWeight: 600, maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
 
-  pageWrap: { maxWidth: "1200px", margin: "0 auto", padding: "32px 20px 80px" },
+  pageWrap: { maxWidth: "1200px", margin: "0 auto", padding: "32px 20px 80px", width: "100%" },
 
   /* Hero card */
   heroCard: {
@@ -364,8 +364,9 @@ const s = {
     boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
   },
   heroBanner: {
-    minHeight: "200px", position: "relative",
-    display: "flex", alignItems: "center", justifyContent: "center", padding: "28px 24px",
+    minHeight: "180px", position: "relative",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    padding: "28px 20px", overflow: "hidden",
   },
   heroBadge: {
     position: "absolute", top: "14px", right: "14px",
