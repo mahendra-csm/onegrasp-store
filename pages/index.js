@@ -95,7 +95,7 @@ export default function Home() {
           <div style={s.videoOverlay} />
 
           <div style={s.heroInner}>
-            <span style={s.heroPill}>🎓 Academic Marketplace · Hyderabad, India</span>
+          
             <h1 className="og-hero-title">
               Your Shortcut to{" "}
               <span style={s.heroAccent}>Academic Excellence</span>
