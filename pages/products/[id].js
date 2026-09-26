@@ -285,6 +285,19 @@ export default function ProductPage() {
           </div>
 
           <section className="og2-more">
+            <div className="og2-promo">
+              <div className="og2-promo-copy">
+                <span className="og2-kicker">Don&apos;t stop here</span>
+                <h2>Wait — there&apos;s more to explore!</h2>
+                <p>Researchers who pair resources go further. Explore the rest of the toolkit below.</p>
+              </div>
+              <img
+                src="/images/wait-theres-more.webp"
+                alt="Excited student reacting with surprise"
+                width="620" height="640" loading="lazy"
+                className="og2-promo-img"
+              />
+            </div>
             <h2 className="og2-more-title">More from the toolkit</h2>
             <div className="og2-grid">
               <Link href="/research-writing" className="og2-tile og2-tile-sm og2-t-dark">

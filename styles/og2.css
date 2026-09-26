@@ -280,6 +280,21 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 
 /* "More from the toolkit" on product pages */
 .og2-more { margin-top: 48px; }
+.og2-promo {
+  position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+  background: var(--soft); border: 1px solid var(--line); border-radius: 28px;
+  padding: 0 40px; margin: 90px 0 36px; min-height: 220px;
+}
+.og2-promo-copy { padding: 36px 0; max-width: 520px; align-self: center; }
+.og2-promo-copy h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.1; color: var(--ink); margin: 10px 0 10px; }
+.og2-promo-copy p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+/* The cut-out photo stands on the card's bottom edge and rises above its top. */
+.og2-promo-img { width: 300px; height: auto; margin-top: -90px; display: block; flex-shrink: 0; }
+@media (max-width: 720px) {
+  .og2-promo { flex-direction: column-reverse; align-items: center; text-align: center; padding: 0 22px; margin-top: 70px; }
+  .og2-promo-copy { padding: 0 0 28px; }
+  .og2-promo-img { width: 220px; margin-top: -70px; }
+}
 .og2-more-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 18px; }
 .og2-tile-sm { min-height: 0; padding: 22px; }
 .og2-tile-sm .og2-tile-top { margin-bottom: 20px; }
