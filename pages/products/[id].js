@@ -280,57 +280,47 @@ export default function ProductPage() {
                   </p>
                 </div>
               </div>
-
             </div>
-          </div>
 
-          <section className="og2-more">
-            <div className="og2-promo">
-              <div className="og2-promo-copy">
+            <aside className="og-more-col">
+              <div className="og2-promo">
+                <img
+                  src="/images/wait-theres-more.webp"
+                  alt="Excited student reacting with surprise"
+                  width="620" height="640" loading="lazy"
+                  className="og2-promo-img"
+                />
                 <span className="og2-kicker">Don&apos;t stop here</span>
                 <h2>Wait — there&apos;s more to explore!</h2>
-                <p>Researchers who pair resources go further. Explore the rest of the toolkit below.</p>
+                <p>Researchers who pair resources go further.</p>
               </div>
-              <img
-                src="/images/wait-theres-more.webp"
-                alt="Excited student reacting with surprise"
-                width="620" height="640" loading="lazy"
-                className="og2-promo-img"
-              />
-            </div>
-            <h2 className="og2-more-title">More from the toolkit</h2>
-            <div className="og2-grid">
-              <Link href="/research-writing" className="og2-tile og2-tile-sm og2-t-dark">
-                <div className="og2-tile-top">
-                  <span className="og2-tag">Programme materials</span>
-                  <span className="og2-chip">{RW_BATCH} batch</span>
-                </div>
-                <h3>{RW_TITLE}</h3>
-                <p>The complete batch folder — unlock it with your coupon code.</p>
-                <div className="og2-tile-foot">
-                  <span className="og2-price">Coupon access</span>
-                  <span className="og2-arrow" aria-hidden="true">→</span>
-                </div>
-              </Link>
-              {others.map((pid) => {
-                const p = PRODUCTS_DATA[pid];
-                return (
-                  <Link key={pid} href={`/products/${pid}`} className="og2-tile og2-tile-sm">
-                    <div className="og2-tile-top">
-                      <span className="og2-tag">{p.category}</span>
-                      <span className="og2-chip">{p.badge}</span>
-                    </div>
-                    <h3>{p.name}</h3>
-                    <p>{p.tagline}</p>
-                    <div className="og2-tile-foot">
-                      <span className="og2-price">₹{p.price.toLocaleString("en-IN")}<small>on request</small></span>
-                      <span className="og2-arrow" aria-hidden="true">→</span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
+
+              <h3 className="og2-more-title">More from the toolkit</h3>
+              <div className="og2-more-list">
+                <Link href="/research-writing" className="og2-more-item is-featured">
+                  <span className="og2-more-text">
+                    <span className="og2-more-tag">{RW_BATCH} batch</span>
+                    <span className="og2-more-name">{RW_TITLE}</span>
+                    <span className="og2-more-price">Coupon access</span>
+                  </span>
+                  <span className="og2-more-arrow" aria-hidden="true">→</span>
+                </Link>
+                {others.map((pid) => {
+                  const p = PRODUCTS_DATA[pid];
+                  return (
+                    <Link key={pid} href={`/products/${pid}`} className="og2-more-item">
+                      <span className="og2-more-text">
+                        <span className="og2-more-tag">{p.category}</span>
+                        <span className="og2-more-name">{p.name}</span>
+                        <span className="og2-more-price">₹{p.price.toLocaleString("en-IN")} · on request</span>
+                      </span>
+                      <span className="og2-more-arrow" aria-hidden="true">→</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </aside>
+          </div>
         </div>
       </main>
 

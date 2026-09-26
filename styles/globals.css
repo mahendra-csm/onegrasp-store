@@ -161,12 +161,13 @@ textarea:focus, select:focus {
 }
 .og-page-grid > * { min-width: 0; }
 
-.og-right-col {
-  position: sticky;
-  top: 100px;
-  min-width: 0;
-}
+/* Right side: price card (row 1) with the promo + recommendations under it (row 2). */
+.og-page-grid { grid-template-rows: auto 1fr; }
+.og-right-col { grid-column: 2; grid-row: 1; min-width: 0; }
+.og-more-col { grid-column: 2; grid-row: 2; min-width: 0; }
 .og-left-col {
+  grid-column: 1;
+  grid-row: 1 / span 2;
   display: flex;
   flex-direction: column;
   gap: 24px;
