@@ -218,7 +218,7 @@ export default function Home() {
           <div className="og2-grid">
             {TOOLKIT.map((p, i) => (
               <div key={p.href} data-reveal style={{ transitionDelay: `${0.06 * i}s` }}>
-                <Tile href={p.href} className={p.featured ? "og2-t-dark" : ""}>
+                <Tile href={p.href} className="og2-t-dark">
                   <div className="og2-tile-top">
                     <span className="og2-index">{String(i + 1).padStart(2, "0")}</span>
                     <span className="og2-chip">{p.chip}</span>
@@ -237,7 +237,7 @@ export default function Home() {
                   )}
                   <div className="og2-tile-foot">
                     {p.featured
-                      ? <span className="og2-price">Coupon access</span>
+                      ? <span className="og2-price og2-price-text">Coupon access</span>
                       : <span className="og2-price">₹999<small>on request</small></span>}
                     <Arrow />
                   </div>

@@ -308,7 +308,7 @@ export default function ProductPage() {
                 {others.map((pid) => {
                   const p = PRODUCTS_DATA[pid];
                   return (
-                    <Link key={pid} href={`/products/${pid}`} className="og2-more-item">
+                    <Link key={pid} href={`/products/${pid}`} className="og2-more-item is-featured">
                       <span className="og2-more-text">
                         <span className="og2-more-tag">{p.category}</span>
                         <span className="og2-more-name">{p.name}</span>
