@@ -150,6 +150,7 @@ function Login({ onDone }) {
 
   async function submit(e) {
     e.preventDefault();
+    if (!password) { setError("Please enter the admin password."); return; }
     setBusy(true);
     setError("");
     try {
@@ -167,7 +168,7 @@ function Login({ onDone }) {
       <p style={{ ...s.sub, marginBottom: 20 }}>Enter the admin password to manage materials and coupons.</p>
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" autoFocus style={s.input} />
       {error && <p style={s.error}>{error}</p>}
-      <button type="submit" disabled={busy || !password} className="og-buy-btn" style={{ marginTop: 14, marginBottom: 0 }}>
+      <button type="submit" disabled={busy} className="og-buy-btn" style={{ marginTop: 14, marginBottom: 0 }}>
         {busy ? "Signing in…" : "Sign in"}
       </button>
     </form>
@@ -176,6 +177,9 @@ function Login({ onDone }) {
 
 function Materials({ state, refresh, notify }) {
   const [newName, setNewName] = useState("");
+  const [nameError, setNameError] = useState("");
+  const [creating, setCreating] = useState(false);
+  const nameInput = useRef(null);
   const [openId, setOpenId] = useState(null);
   const [renaming, setRenaming] = useState(null);
   const [uploads, setUploads] = useState([]);
@@ -183,14 +187,23 @@ function Materials({ state, refresh, notify }) {
 
   async function createFolder(e) {
     e.preventDefault();
-    if (!newName.trim()) return;
+    if (!newName.trim()) {
+      setNameError("Type a folder name first, then click Create folder.");
+      nameInput.current?.focus();
+      return;
+    }
+    setCreating(true);
     try {
       const f = await api("/api/admin/folders", "POST", { name: newName });
       setNewName("");
       setOpenId(f.id);
       await refresh();
       notify(`Folder "${f.name}" created`);
-    } catch (err) { notify(err.message, true); }
+    } catch (err) {
+      setNameError(err.message);
+      notify(err.message, true);
+    }
+    setCreating(false);
   }
 
   async function rename(e) {
@@ -247,9 +260,16 @@ function Materials({ state, refresh, notify }) {
   return (
     <div style={s.panel}>
       <form onSubmit={createFolder} style={s.row}>
-        <input value={newName} onChange={(e) => setNewName(e.target.value)} placeholder="New folder name, e.g. Week 1 – Literature Review" style={{ ...s.input, flex: 1, minWidth: 200 }} />
-        <button type="submit" disabled={!newName.trim()} style={s.primaryBtn}>+ Create folder</button>
+        <input
+          ref={nameInput}
+          value={newName}
+          onChange={(e) => { setNewName(e.target.value); setNameError(""); }}
+          placeholder="New folder name, e.g. Week 1 – Literature Review"
+          style={{ ...s.input, flex: 1, minWidth: 200, ...(nameError ? { borderColor: "#DB3433", background: "#FEF2F2" } : {}) }}
+        />
+        <button type="submit" disabled={creating} style={s.primaryBtn}>{creating ? "Creating…" : "+ Create folder"}</button>
       </form>
+      {nameError && <p style={s.error}>{nameError}</p>}
 
       {state.folders.length === 0 && <p style={{ ...s.muted, padding: "28px 0" }}>No folders yet. Create one above, then upload files into it.</p>}
 
