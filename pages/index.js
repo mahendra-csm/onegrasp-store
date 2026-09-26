@@ -103,8 +103,8 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>OneGrasp — Your Shortcut to Academic Excellence</title>
-        <meta name="description" content="Premium digital resources for students, researchers, PhD scholars and academics." />
+        <title>OneGrasp — From Research Question to Real-World Impact</title>
+        <meta name="description" content="Guides, programme materials and masterclasses for researchers and PhD scholars — write stronger papers, publish with confidence, and turn research into impact." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
@@ -123,11 +123,11 @@ export default function Home() {
                   <b>New</b> {RW_TITLE} · {RW_BATCH} batch is live <span aria-hidden="true">→</span>
                 </Link>
                 <h1 className="og2-h1">
-                  <span className="og2-line"><span>Your shortcut to</span></span>
-                  <span className="og2-line"><span><em>academic</em> excellence.</span></span>
+                  <span className="og2-line"><span>From research question</span></span>
+                  <span className="og2-line"><span className="og2-h1-soft">to real-world impact.</span></span>
                 </h1>
                 <p className="og2-hero-sub">
-                  Premium resources for students, researchers and PhD scholars — to research better, write stronger, and build what comes next.
+                  Guides, programme materials and masterclasses for researchers and PhD scholars — to write stronger papers, publish with confidence, and turn your research into impact.
                 </p>
                 <div className="og2-hero-ctas">
                   <a href="#products" className="og2-btn">Explore the toolkit <span className="og2-btn-arrow">→</span></a>
