@@ -9,7 +9,7 @@
   --serif: 'Instrument Serif', Georgia, serif;
   --ease: cubic-bezier(.2, .7, .1, 1);
 }
-em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+em { font-style: normal; }
 
 /* ── Buttons ── */
 .og2-btn {
@@ -112,7 +112,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
   font-size: clamp(2.5rem, 6.2vw, 5.6rem); line-height: .96; letter-spacing: -0.05em;
   font-weight: 700; color: #FFF; margin: 22px 0 20px;
 }
-.og2-h1 em { color: var(--red); font-size: 1.08em; }
+.og2-h1 em { color: var(--red); }
 .og2-line { display: block; overflow: hidden; padding-bottom: .06em; }
 .og2-line > span { display: inline-block; animation: og2-rise 1s var(--ease) both; }
 .og2-line:nth-child(2) > span { animation-delay: .12s; }
@@ -173,7 +173,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
   display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; white-space: nowrap;
   font-size: clamp(1.4rem, 3vw, 2.3rem); font-weight: 600; letter-spacing: -0.03em; color: var(--ink);
 }
-.og2-marquee-track span.is-serif { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--muted); letter-spacing: -0.01em; }
+.og2-marquee-track span.is-muted { font-weight: 400; color: var(--muted); }
 .og2-marquee-track i { color: var(--red); font-style: normal; font-size: .6em; }
 @keyframes og2-marq { to { transform: translateX(-50%); } }
 
@@ -275,7 +275,7 @@ em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spa
 .og2-trust { max-width: 1240px; margin: 0 auto; padding: 32px 16px 56px; display: grid; grid-template-columns: repeat(4, 1fr); }
 .og2-trust > div { display: flex; flex-direction: column; gap: 4px; padding: 6px 22px; border-left: 1px solid var(--line); }
 .og2-trust > div:first-child { border-left: 0; padding-left: 0; }
-.og2-trust-num { font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--red); line-height: 1; margin-bottom: 6px; }
+.og2-trust-num { font-size: 1.1rem; font-weight: 700; color: var(--red); line-height: 1; margin-bottom: 8px; }
 .og2-trust b { font-size: 0.95rem; letter-spacing: -0.01em; color: var(--ink); }
 .og2-trust > div > span:last-child { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
 

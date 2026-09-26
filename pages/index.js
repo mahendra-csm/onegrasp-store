@@ -167,7 +167,7 @@ export default function Home() {
         <div className="og2-marquee" aria-hidden="true">
           <div className="og2-marquee-track">
             {[...SKILLS, ...SKILLS].map((w, i) => (
-              <span key={i} className={i % 2 ? "is-serif" : ""}>{w}<i>✦</i></span>
+              <span key={i} className={i % 2 ? "is-muted" : ""}>{w}<i>✦</i></span>
             ))}
           </div>
         </div>
