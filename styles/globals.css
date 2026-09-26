@@ -163,7 +163,7 @@ textarea:focus, select:focus {
 
 .og-right-col {
   position: sticky;
-  top: 80px;
+  top: 100px;
   min-width: 0;
 }
 .og-left-col {

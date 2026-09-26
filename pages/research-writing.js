@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import PageHero from "../components/PageHero";
 import { RW_BATCH, RW_TITLE, formatSize } from "../lib/format";
 
 const FolderIcon = ({ size = 28, color = "#DB3433" }) => (
@@ -74,29 +75,22 @@ export default function ResearchWriting() {
       <Navbar />
 
       <main style={s.main}>
-        <section style={s.banner}>
-          <span style={s.bannerBadge}>{RW_BATCH} Batch</span>
-          <h1 style={s.bannerTitle}>{RW_TITLE}</h1>
-          <p style={s.bannerSub}>Programme materials, templates and resources — unlocked with your coupon code.</p>
-        </section>
-
-        <div style={s.breadBar}>
-          <div style={s.breadInner}>
-            <Link href="/" style={s.breadLink}>Home</Link>
-            <span style={s.breadSep}>/</span>
-            <Link href="/#products" style={s.breadLink}>Products</Link>
-            <span style={s.breadSep}>/</span>
-            {openFolder ? (
-              <>
-                <button onClick={() => setOpenId(null)} style={s.breadBtn}>{RW_TITLE}</button>
-                <span style={s.breadSep}>/</span>
-                <span style={s.breadCurrent}>{openFolder.name}</span>
-              </>
-            ) : (
-              <span style={s.breadCurrent}>{RW_TITLE}</span>
-            )}
-          </div>
-        </div>
+        <PageHero
+          crumbs={
+            <>
+              <Link href="/">Home</Link><span>/</span>
+              <Link href="/#products">Toolkit</Link><span>/</span>
+              {openFolder ? (
+                <><button onClick={() => setOpenId(null)}>{RW_TITLE}</button><span>/</span><strong>{openFolder.name}</strong></>
+              ) : (
+                <strong>{RW_TITLE}</strong>
+              )}
+            </>
+          }
+          kicker={`${RW_BATCH} batch`}
+          title={<>Research <em>Writing</em></>}
+          subtitle="Programme materials, templates and resources — unlocked with your coupon code."
+        />
 
         <div style={s.wrap}>
           {status === "loading" && <p style={s.muted}>Loading…</p>}
@@ -192,40 +186,12 @@ const font = "'Poppins', sans-serif";
 
 const s = {
   main: { background: "#FFFFFF", minHeight: "70vh" },
-  banner: {
-    padding: "32px 20px 24px",
-    textAlign: "center",
-    borderBottom: "1px solid #E5E7EB",
-  },
-  bannerBadge: {
-    display: "inline-block", color: "#DB3433", background: "#FEF2F2",
-    padding: "4px 14px", borderRadius: "100px",
-    fontSize: "0.7rem", fontWeight: 700, fontFamily: font, marginBottom: "10px",
-    textTransform: "uppercase", letterSpacing: "0.06em",
-  },
-  bannerTitle: {
-    fontSize: "clamp(1.5rem, 3vw, 2.1rem)", fontWeight: 800, color: "#1F2937",
-    fontFamily: font, letterSpacing: "-0.03em", marginBottom: "6px",
-  },
-  bannerSub: { fontSize: "0.9rem", color: "#6B7280", fontFamily: font, maxWidth: 560, margin: "0 auto", lineHeight: 1.6 },
-
-  breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E5E7EB" },
-  breadInner: {
-    maxWidth: "1200px", margin: "0 auto", padding: "12px 20px",
-    display: "flex", alignItems: "center", gap: "8px",
-    fontFamily: font, fontSize: "0.8rem", flexWrap: "wrap",
-  },
-  breadLink: { color: "#6B7280", textDecoration: "none", fontWeight: 500 },
-  breadBtn: { color: "#6B7280", fontWeight: 500, background: "none", border: "none", cursor: "pointer", fontFamily: font, fontSize: "0.8rem", padding: 0 },
-  breadSep: { color: "#D1D5DB" },
-  breadCurrent: { color: "#1F2937", fontWeight: 600 },
-
-  wrap: { maxWidth: "1200px", margin: "0 auto", padding: "28px 20px 48px" },
+  wrap: { maxWidth: "1240px", margin: "0 auto", padding: "32px 16px 56px" },
   muted: { fontFamily: font, color: "#6B7280", textAlign: "center", fontSize: "0.9rem" },
 
   lockCard: {
-    maxWidth: 440, margin: "0 auto", background: "#FFFFFF", borderRadius: 18,
-    border: "1px solid #E5E7EB", boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+    maxWidth: 460, margin: "0 auto", background: "#FFFFFF", borderRadius: 28,
+    border: "1px solid #E7E7EA", boxShadow: "0 30px 60px -30px rgba(14,14,17,0.25)",
     padding: "36px 28px", textAlign: "center",
   },
   lockIcon: {
@@ -235,7 +201,7 @@ const s = {
   lockTitle: { fontFamily: font, fontSize: "1.25rem", fontWeight: 800, color: "#1F2937", marginBottom: 8 },
   lockSub: { fontFamily: font, fontSize: "0.85rem", color: "#6B7280", lineHeight: 1.6, marginBottom: 20 },
   codeInput: {
-    width: "100%", padding: "13px 14px", borderRadius: 10, border: "1.5px solid #E5E7EB",
+    width: "100%", padding: "14px 16px", borderRadius: 16, border: "1.5px solid #E7E7EA",
     fontSize: "1rem", fontFamily: font, fontWeight: 700, letterSpacing: "0.08em",
     textAlign: "center", color: "#1F2937", background: "#FFFFFF",
   },
@@ -246,14 +212,14 @@ const s = {
   toolbar: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" },
   granted: { display: "flex", alignItems: "center", gap: 8, fontFamily: font, fontWeight: 600, color: "#DB3433", fontSize: "0.88rem" },
   ghostBtn: {
-    background: "#FFFFFF", border: "1.5px solid #E5E7EB", borderRadius: 9, padding: "8px 14px",
+    background: "#FFFFFF", border: "1.5px solid #E7E7EA", borderRadius: 999, padding: "9px 16px",
     fontFamily: font, fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", cursor: "pointer",
   },
 
   folderCard: {
     display: "flex", alignItems: "center", gap: 16, textAlign: "left", width: "100%",
-    background: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: 16, padding: "22px 20px",
-    boxShadow: "0 2px 12px rgba(0,0,0,0.05)", cursor: "pointer", fontFamily: font,
+    background: "#F5F5F6", border: "1px solid #E7E7EA", borderRadius: 24, padding: "24px 22px",
+    cursor: "pointer", fontFamily: font,
   },
   folderIconWrap: {
     width: 52, height: 52, borderRadius: 12, background: "#FEF2F2", flexShrink: 0,
@@ -262,14 +228,14 @@ const s = {
   folderName: { fontWeight: 700, color: "#1F2937", fontSize: "0.95rem", overflowWrap: "anywhere" },
   folderCount: { color: "#6B7280", fontSize: "0.78rem", marginTop: 2 },
 
-  fileCard: { background: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: 16, overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.05)" },
+  fileCard: { background: "#FFFFFF", border: "1px solid #E7E7EA", borderRadius: 24, overflow: "hidden" },
   fileHead: { display: "flex", alignItems: "center", gap: 14, padding: "16px 20px", borderBottom: "1px solid #F3F4F6", flexWrap: "wrap" },
   fileHeadTitle: { fontFamily: font, fontSize: "1.05rem", fontWeight: 800, color: "#1F2937", overflowWrap: "anywhere" },
   fileRow: { display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid #F3F4F6" },
   fileName: { fontFamily: font, fontWeight: 600, color: "#1F2937", fontSize: "0.88rem", overflowWrap: "anywhere" },
   fileMeta: { fontFamily: font, color: "#9CA3AF", fontSize: "0.74rem", marginTop: 2 },
   dlBtn: {
-    background: "#DB3433", color: "#FFFFFF", padding: "9px 16px", borderRadius: 9, textDecoration: "none",
+    background: "#0E0E11", color: "#FFFFFF", padding: "10px 18px", borderRadius: 999, textDecoration: "none",
     fontFamily: font, fontWeight: 700, fontSize: "0.8rem", whiteSpace: "nowrap", flexShrink: 0,
   },
 };

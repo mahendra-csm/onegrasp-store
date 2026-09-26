@@ -31,13 +31,14 @@ function uploadLocal(folderId, file, onProgress) {
   });
 }
 
-async function uploadBlob(folderId, file, onProgress) {
-  const { upload } = await import("@vercel/blob/client");
+async function uploadBlob(folderId, file, onProgress, uploadMode) {
+  const { upload, uploadPresigned } = await import("@vercel/blob/client");
   const safe = file.name.replace(/[^\w.\-]+/g, "_");
-  const blob = await upload(`onegrasp/files/${folderId}/${safe}`, file, {
+  const presigned = uploadMode === "presigned";
+  const blob = await (presigned ? uploadPresigned : upload)(`onegrasp/files/${folderId}/${safe}`, file, {
     access: "private",
     handleUploadUrl: "/api/admin/blob-upload",
-    multipart: file.size > 20 * 1024 * 1024,
+    multipart: !presigned && file.size > 20 * 1024 * 1024,
     onUploadProgress: (p) => onProgress(Math.round(p.percentage)),
   });
   await api("/api/admin/files", "POST", {
@@ -230,7 +231,7 @@ function Materials({ state, refresh, notify }) {
     for (let i = 0; i < files.length; i++) {
       try {
         await doUpload(folderId, files[i], (pct) =>
-          setUploads((u) => u.map((x, j) => (j === i ? { ...x, pct } : x))));
+          setUploads((u) => u.map((x, j) => (j === i ? { ...x, pct } : x))), state.uploadMode);
         setUploads((u) => u.map((x, j) => (j === i ? { ...x, pct: 100, done: true } : x)));
       } catch (err) {
         failed++;

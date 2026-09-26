@@ -1,9 +1,9 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import PageHero from "../../components/PageHero";
 
 const PRODUCTS_DATA = {
   "research-guide": {
@@ -13,7 +13,7 @@ const PRODUCTS_DATA = {
     tagline: "Your complete roadmap to academic research excellence",
     description:
       "A comprehensive, step-by-step guide designed for students at every level — from high school to PhD. Master research methodology, academic writing, and citation practices used by top researchers worldwide.",
-    price: 1,
+    price: 999,
     pages: "40+",
     topicsCount: 12,
     whatInside: [
@@ -27,7 +27,7 @@ const PRODUCTS_DATA = {
       { title: "Plagiarism, Ethics & Integrity", desc: "Academic integrity guidelines, how to avoid plagiarism, and ethical research practices." },
     ],
     whoFor: ["High School Students", "Undergraduate Students", "Postgraduate Students", "PhD Scholars", "Independent Researchers", "Academic Professionals"],
-    highlights: ["Step-by-step methodology", "Real-world examples included", "All major citation formats", "Beginner to advanced level", "Instant PDF download"],
+    highlights: ["Step-by-step methodology", "Real-world examples included", "All major citation formats", "Beginner to advanced level", "PDF on request"],
   },
   "research-topics": {
     name: "Student Research Topics",
@@ -36,7 +36,7 @@ const PRODUCTS_DATA = {
     tagline: "100+ handpicked research topics across every academic domain",
     description:
       "Stop wasting time searching for research topics. Get a curated collection of trending, relevant, and publishable research topics across all major academic fields — with scope descriptions to help you start instantly.",
-    price: 1,
+    price: 999,
     pages: "30+",
     topicsCount: 100,
     whatInside: [
@@ -53,14 +53,13 @@ const PRODUCTS_DATA = {
     highlights: ["100+ curated topics", "8 major academic domains", "Scope & feasibility notes", "Trending & publishable", "Updated for 2025–26"],
   },
   "digital-product": {
-    static: true,
     name: "Digital Product",
     category: "Creator Economy",
     badge: "Premium",
     tagline: "Build, package and sell your own digital products",
     description:
       "A practical playbook for turning your knowledge into digital products — from idea validation and creation to pricing, launch and selling online. Built for students, researchers and educators who want to create an independent income stream.",
-    price: 1999,
+    price: 999,
     whatInside: [
       { title: "Finding Your Product Idea", desc: "Identify what you know that others will pay for, and pick the right product format." },
       { title: "Validating Demand", desc: "Test your idea with real people before investing time in building it." },
@@ -73,14 +72,13 @@ const PRODUCTS_DATA = {
     highlights: ["Idea-to-launch roadmap", "Pricing & positioning frameworks", "Online selling setup", "Marketing playbook", "Practical templates"],
   },
   "financial-literacy": {
-    static: true,
     name: "Financial Literacy",
     category: "Personal Finance",
     badge: "Essential",
     tagline: "Master money basics every student should know",
     description:
       "Budgeting, saving, investing, credit and taxes explained simply. Build the money habits and confidence to make smart financial decisions early — with examples relevant to students and young professionals in India.",
-    price: 599,
+    price: 999,
     whatInside: [
       { title: "Budgeting Basics", desc: "Track income and expenses and build a budget you can actually stick to." },
       { title: "Saving & Emergency Funds", desc: "How much to save, where to keep it, and why an emergency fund comes first." },
@@ -93,14 +91,13 @@ const PRODUCTS_DATA = {
     highlights: ["Beginner-friendly", "India-specific examples", "Budgeting templates", "Investing fundamentals", "Fraud-safety tips"],
   },
   "researcher-to-entrepreneur": {
-    static: true,
     name: "Researcher to Entrepreneur Mastery",
     category: "Entrepreneurship",
     badge: "Masterclass",
     tagline: "Turn your research into a real-world venture",
     description:
       "Learn how to identify commercial potential in your research, validate the market, protect your ideas, and take the first steps toward building a startup — a structured path from lab or library to launch.",
-    price: 799,
+    price: 999,
     whatInside: [
       { title: "Research Commercialisation", desc: "Spot the problems your research solves and who would pay for the solution." },
       { title: "Market Validation", desc: "Customer discovery, competitor analysis and product–market fit." },
@@ -136,78 +133,6 @@ export default function ProductPage() {
   const otherId = id ? OTHER[id] : null;
   const otherProduct = otherId ? PRODUCTS_DATA[otherId] : null;
 
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    document.body.appendChild(script);
-    return () => { if (document.body.contains(script)) document.body.removeChild(script); };
-  }, []);
-
-  function validateEmail(val) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-  }
-
-  async function handleBuy() {
-    if (!email.trim()) { setEmailError("Please enter your email address."); return; }
-    if (!validateEmail(email)) { setEmailError("Please enter a valid email address."); return; }
-    setEmailError("");
-    setLoading(true);
-
-    try {
-      const orderRes = await fetch("/api/create-order", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId: id }),
-      });
-      const orderData = await orderRes.json();
-      if (!orderRes.ok) throw new Error(orderData.error || "Failed to create order");
-
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-        amount: orderData.amount,
-        currency: "INR",
-        name: "OneGrasp",
-        description: product.name,
-        order_id: orderData.orderId,
-        prefill: { email },
-        theme: { color: "#DB3433" },
-        handler: async function (response) {
-          try {
-            const verifyRes = await fetch("/api/verify-payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                productId: id,
-                email,
-              }),
-            });
-            const verifyData = await verifyRes.json();
-            if (!verifyRes.ok) throw new Error(verifyData.error || "Verification failed");
-            localStorage.setItem("og_success_email", email);
-            router.push("/success");
-          } catch (err) {
-            alert("Payment done but email delivery failed. Contact support@onegrasp.com");
-            setLoading(false);
-          }
-        },
-        modal: { ondismiss: () => setLoading(false) },
-      };
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      alert(err.message || "Something went wrong. Please try again.");
-      setLoading(false);
-    }
-  }
-
   if (!product) {
     return (
       <>
@@ -234,16 +159,12 @@ export default function ProductPage() {
       <Navbar />
 
       <main style={s.main}>
-        {/* Breadcrumb */}
-        <div style={s.breadBar}>
-          <div style={s.breadInner}>
-            <Link href="/" style={s.breadLink}>Home</Link>
-            <span style={s.breadSep}>/</span>
-            <Link href="/#products" style={s.breadLink}>Products</Link>
-            <span style={s.breadSep}>/</span>
-            <span style={s.breadCurrent}>{product.name}</span>
-          </div>
-        </div>
+        <PageHero
+          crumbs={<><Link href="/">Home</Link><span>/</span><Link href="/#products">Toolkit</Link><span>/</span><strong>{product.name}</strong></>}
+          kicker={`${product.category} · ${product.badge}`}
+          title={product.name}
+          subtitle={product.tagline}
+        />
 
         {/* Two-col layout — stacks on mobile via CSS, buy card first on mobile */}
         <div style={s.pageWrap}>
@@ -253,24 +174,16 @@ export default function ProductPage() {
             <div className="og-left-col">
               {/* Hero card */}
               <div style={s.heroCard}>
-                <div style={s.heroBanner}>
-                  <span style={s.heroBadge}>{product.badge}</span>
-                  <div style={s.heroBannerBody}>
-                    <span style={s.heroCatTag}>{product.category}</span>
-                    <h1 style={s.heroName}>{product.name}</h1>
-                    <p style={s.heroTagline}>{product.tagline}</p>
-                  </div>
-                </div>
                 <div style={s.heroCardBody}>
                   <p style={s.heroDesc}>{product.description}</p>
                   {/* Meta row */}
                   <div className="og-meta-row">
-                    {(product.static ? STATIC_META : [
+                    {(product.pages ? [
                       { icon: "📄", val: product.pages, lbl: "Pages" },
                       { icon: "✅", val: `${product.topicsCount}+`, lbl: id === "research-guide" ? "Sections" : "Topics" },
                       { icon: "⚡", val: "PDF", lbl: "Format" },
-                      { icon: "🚀", val: "Instant", lbl: "Delivery" },
-                    ]).map((m, i, arr) => (
+                      { icon: "📩", val: "Email", lbl: "Request" },
+                    ] : STATIC_META).map((m, i, arr) => (
                       <>
                         <div key={m.lbl} style={s.metaItem}>
                           <span style={s.metaIcon}>{m.icon}</span>
@@ -339,13 +252,12 @@ export default function ProductPage() {
                 {/* Price header */}
                 <div style={s.buyTop}>
                   <div style={s.priceRow}>
-                    <span style={s.priceOnly}>{product.static ? "Price" : "Only"}</span>
+                    <span style={s.priceOnly}>Price</span>
                     <span style={s.priceAmt}>₹{product.price.toLocaleString("en-IN")}</span>
                   </div>
-                  <p style={s.priceNote}>{product.static ? "One-time · Available on request" : "One-time · Instant PDF delivery"}</p>
+                  <p style={s.priceNote}>One-time · Available on request</p>
                 </div>
 
-                {product.static ? (
                   <div style={s.buyBody}>
                     <div style={s.volumeNote}>
                       <strong style={{ display: "block", marginBottom: 4 }}>High demand notice</strong>
@@ -362,44 +274,6 @@ export default function ProductPage() {
                       Request Access by Email
                     </a>
                   </div>
-                ) : (
-                <div style={s.buyBody}>
-                  <label style={s.emailLabel}>Your Email Address</label>
-                  <input
-                    type="email"
-                    placeholder="you@example.com"
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
-                    style={s.emailInput}
-                  />
-                  {emailError && <p style={s.emailError}>{emailError}</p>}
-                  <p style={s.emailHint}>PDF will be sent to this email after payment</p>
-
-                  <button
-                    onClick={handleBuy}
-                    disabled={loading}
-                    className="og-buy-btn"
-                  >
-                    {loading ? "Processing…" : (
-                      <>
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        </svg>
-                        Buy Now · ₹{product.price}
-                      </>
-                    )}
-                  </button>
-
-                  <div style={s.trustList}>
-                    {["Secure Razorpay Payment", "Instant PDF Delivery", "No Hidden Charges"].map((t) => (
-                      <div key={t} style={s.trustItem}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                        <span>{t}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                )}
 
                 {/* Support */}
                 <div style={s.buySupport}>
@@ -431,48 +305,15 @@ export default function ProductPage() {
 }
 
 const s = {
-  main: { background: "#FFFFFF", minHeight: "100vh", overflow: "hidden" },
+  main: { background: "#FFFFFF", minHeight: "100vh", overflowX: "clip" },
 
-  /* Breadcrumb */
-  breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E5E7EB" },
-  breadInner: {
-    maxWidth: "1200px", margin: "0 auto", padding: "12px 20px",
-    display: "flex", alignItems: "center", gap: "8px",
-    fontFamily: "'Poppins', sans-serif", fontSize: "0.8rem", flexWrap: "wrap",
-  },
-  breadLink: { color: "#6B7280", textDecoration: "none", fontWeight: 500 },
-  breadSep: { color: "#D1D5DB" },
-  breadCurrent: { color: "#1F2937", fontWeight: 600, maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
+  pageWrap: { maxWidth: "1240px", margin: "0 auto", padding: "24px 16px 48px", width: "100%" },
 
-  pageWrap: { maxWidth: "1200px", margin: "0 auto", padding: "24px 20px 40px", width: "100%" },
-
-  /* Hero card */
   heroCard: {
-    background: "#FFFFFF", borderRadius: "14px",
-    border: "1px solid #E5E7EB", overflow: "hidden",
+    background: "#F5F5F6", borderRadius: "24px",
+    border: "1px solid #E7E7EA", overflow: "hidden",
   },
-  heroBanner: {
-    position: "relative", padding: "24px 24px 0",
-  },
-  heroBadge: {
-    position: "absolute", top: "20px", right: "20px",
-    color: "#6B7280", border: "1px solid #E5E7EB", padding: "3px 10px",
-    borderRadius: "100px", fontSize: "0.66rem", fontWeight: 700,
-    fontFamily: "'Poppins', sans-serif", textTransform: "uppercase", letterSpacing: "0.05em",
-  },
-  heroBannerBody: { paddingRight: "110px" },
-  heroCatTag: {
-    display: "block", color: "#DB3433",
-    fontSize: "0.7rem", fontWeight: 700, fontFamily: "'Poppins', sans-serif",
-    marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.05em",
-  },
-  heroName: {
-    fontSize: "1.6rem", fontWeight: 800, color: "#1F2937",
-    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.02em",
-    marginBottom: "6px", lineHeight: 1.25,
-  },
-  heroTagline: { fontSize: "0.9rem", color: "#4B5563", fontWeight: 600, fontFamily: "'Poppins', sans-serif" },
-  heroCardBody: { padding: "16px 24px 24px" },
+  heroCardBody: { padding: "24px" },
   heroDesc: {
     fontSize: "0.9rem", color: "#4B5563", fontFamily: "'Poppins', sans-serif",
     lineHeight: 1.75, marginBottom: "20px",
@@ -486,8 +327,8 @@ const s = {
 
   /* Blocks */
   block: {
-    background: "#FFFFFF", borderRadius: "14px", border: "1px solid #E5E7EB",
-    padding: "22px 24px",
+    background: "#F5F5F6", borderRadius: "24px", border: "1px solid #E7E7EA",
+    padding: "24px",
   },
   blockTitle: {
     fontSize: "1.1rem", fontWeight: 800, color: "#1F2937",
@@ -497,7 +338,7 @@ const s = {
 
   insideCard: {
     display: "flex", gap: "14px", alignItems: "flex-start",
-    padding: "14px", background: "#FFFFFF", borderRadius: "10px", border: "1px solid #F3F4F6",
+    padding: "14px", background: "#FFFFFF", borderRadius: "14px", border: "1px solid #E7E7EA",
   },
   insideNum: {
     fontSize: "1rem", fontWeight: 800, color: "#DB3433",
@@ -508,14 +349,14 @@ const s = {
 
   whoCard: {
     display: "flex", alignItems: "center", gap: "8px",
-    background: "#FEF2F2", border: "1px solid #FECACA",
-    borderRadius: "10px", padding: "10px 14px",
+    background: "#FFFFFF", border: "1px solid #E7E7EA",
+    borderRadius: "999px", padding: "10px 16px",
   },
   whoLabel: { fontSize: "0.82rem", fontWeight: 600, color: "#1F2937", fontFamily: "'Poppins', sans-serif" },
 
   highlightsBox: {
-    background: "#FFFFFF", border: "1px solid #E5E7EB",
-    borderRadius: "14px", padding: "22px 24px",
+    background: "#F5F5F6", border: "1px solid #E7E7EA",
+    borderRadius: "24px", padding: "24px",
   },
   highlightsTitle: {
     fontSize: "1.1rem", fontWeight: 800, color: "#1F2937",
@@ -527,44 +368,27 @@ const s = {
 
   /* Buy card */
   buyCard: {
-    background: "#FFFFFF", borderRadius: "14px",
-    border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
-    overflow: "hidden", marginBottom: "16px",
+    background: "#FFFFFF", borderRadius: "24px",
+    border: "1px solid #E7E7EA", boxShadow: "0 30px 60px -30px rgba(14,14,17,0.25)",
+    overflow: "hidden", marginBottom: "14px",
   },
   buyTop: {
-    padding: "22px 24px 16px", borderBottom: "1px solid #E5E7EB",
+    padding: "24px", background: "#0E0E11",
+    backgroundImage: "radial-gradient(circle at 100% 0%, rgba(219,52,51,0.45), transparent 55%)",
   },
-  priceRow: { display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "4px" },
-  priceOnly: { fontSize: "0.82rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
+  priceRow: { display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "6px" },
+  priceOnly: { fontSize: "0.82rem", color: "rgba(255,255,255,0.6)", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
   priceAmt: {
-    fontSize: "2.4rem", fontWeight: 900, color: "#1F2937",
-    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.04em", lineHeight: 1,
+    fontSize: "2.8rem", fontWeight: 700, color: "#FFFFFF",
+    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.05em", lineHeight: 1,
   },
-  priceNote: { fontSize: "0.75rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif" },
+  priceNote: { fontSize: "0.75rem", color: "rgba(255,255,255,0.55)", fontFamily: "'Poppins', sans-serif" },
 
   buyBody: { padding: "22px 24px" },
   volumeNote: {
     background: "#F9FAFB", border: "1px solid #E5E7EB", color: "#4B5563",
     borderRadius: "10px", padding: "12px 14px", fontSize: "0.8rem", lineHeight: 1.6,
     fontFamily: "'Poppins', sans-serif", marginBottom: "16px",
-  },
-  emailLabel: {
-    display: "block", fontSize: "0.8rem", fontWeight: 700,
-    color: "#1F2937", fontFamily: "'Poppins', sans-serif", marginBottom: "8px",
-  },
-  emailInput: {
-    width: "100%", padding: "11px 14px", borderRadius: "9px",
-    border: "1.5px solid #E5E7EB", fontSize: "0.88rem",
-    fontFamily: "'Poppins', sans-serif", color: "#1F2937",
-    background: "#FFFFFF", boxSizing: "border-box", marginBottom: "6px",
-  },
-  emailError: { color: "#DB3433", fontSize: "0.75rem", fontWeight: 600, fontFamily: "'Poppins', sans-serif", marginBottom: "6px" },
-  emailHint: { fontSize: "0.72rem", color: "#9CA3AF", fontFamily: "'Poppins', sans-serif", marginBottom: "18px" },
-
-  trustList: { display: "flex", flexDirection: "column", gap: "8px" },
-  trustItem: {
-    display: "flex", alignItems: "center", gap: "7px",
-    fontSize: "0.75rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", fontWeight: 500,
   },
 
   buySupport: {
@@ -574,8 +398,8 @@ const s = {
   supportLink: { color: "#DB3433", textDecoration: "none", fontWeight: 600 },
 
   alsoCard: {
-    background: "#FFFFFF", border: "1px solid #E5E7EB",
-    borderRadius: "14px", padding: "18px 20px",
+    background: "#F5F5F6", border: "1px solid #E7E7EA",
+    borderRadius: "24px", padding: "20px 22px",
   },
   alsoLabel: {
     fontSize: "0.68rem", color: "#9CA3AF", fontWeight: 700,
