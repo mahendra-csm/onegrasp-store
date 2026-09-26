@@ -290,28 +290,29 @@ button:disabled { opacity: .6; cursor: not-allowed; }
 .og2-more-title { font-size: 0.74rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 24px 0 10px; }
 .og2-more-list { display: flex; flex-direction: column; gap: 8px; }
 .og2-more-item {
-  display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px;
+  display: flex; flex-direction: column; align-items: stretch; gap: 12px; padding: 16px; border-radius: 18px;
   background: #FFF; border: 1px solid var(--line); text-decoration: none; color: var(--ink);
   transition: transform .3s var(--ease), border-color .3s, box-shadow .3s;
 }
-.og2-more-item:hover { transform: translateX(3px); border-color: #D4D4D8; box-shadow: 0 12px 24px -16px rgba(14,14,17,.3); }
+.og2-more-item:hover { transform: translateY(-2px); border-color: #D4D4D8; box-shadow: 0 12px 24px -16px rgba(14,14,17,.3); }
 .og2-more-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
 .og2-more-tag { font-size: 0.64rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .og2-more-name { font-size: 0.9rem; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
 .og2-more-price { font-size: 0.74rem; color: var(--muted); }
-.og2-more-arrow {
-  width: 32px; height: 32px; flex-shrink: 0; border-radius: 50%; background: var(--ink); color: #FFF;
-  display: grid; place-items: center; font-weight: 700; transition: background .3s, transform .3s var(--ease);
+.og2-more-cta {
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  padding: 11px 16px; border-radius: 999px; background: var(--red); color: #FFF;
+  font-size: 0.84rem; font-weight: 700; box-shadow: 0 10px 22px -12px rgba(219,52,51,.6);
+  transition: background .25s;
 }
-.og2-more-item:hover .og2-more-arrow { background: var(--red); transform: rotate(-45deg); }
+.og2-more-item:hover .og2-more-cta { background: var(--red-600); }
 .og2-more-item.is-featured {
   background: var(--ink); border-color: var(--ink); color: #FFF;
   background-image: radial-gradient(circle at 100% 0%, rgba(219,52,51,.45), transparent 60%);
 }
 .og2-more-item.is-featured .og2-more-tag { color: #FCA5A5; }
 .og2-more-item.is-featured .og2-more-price { color: rgba(255,255,255,.65); }
-.og2-more-item.is-featured .og2-more-arrow { background: var(--red); }
-.og2-more-item.is-featured:hover .og2-more-arrow { background: #FFF; color: var(--ink); }
+
 
 /* Existing product/coupon buttons, restyled as pills */
 .og-buy-btn, .og-request-btn { border-radius: 999px; }
