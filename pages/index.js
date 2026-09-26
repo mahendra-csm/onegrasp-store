@@ -2,6 +2,8 @@ import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import FutureOfWork from "../components/FutureOfWork";
+import { RW_BATCH, RW_TITLE } from "../lib/format";
 
 const products = [
   {
@@ -13,8 +15,7 @@ const products = [
     description:
       "Step-by-step guide covering methodology, literature review, data analysis, citations, and academic writing. From high school to PhD.",
     price: 1,
-    pages: "40+",
-    topicsCount: 12,
+    chips: ["📄 40+ pages", "✅ 12+ sections", "⚡ Instant PDF"],
     gradient: "linear-gradient(135deg, #1e3a5f 0%, #D42626 100%)",
     icon: (
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -33,13 +34,84 @@ const products = [
     description:
       "Curated, trending, and publishable research topics across CS, Medical, Business, Environment, Social Sciences, Engineering and more.",
     price: 1,
-    pages: "30+",
-    topicsCount: 100,
+    chips: ["📄 30+ pages", "✅ 100+ topics", "⚡ Instant PDF"],
     gradient: "linear-gradient(135deg, #1a1a2e 0%, #8B1A1A 100%)",
     icon: (
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" />
         <line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />
+      </svg>
+    ),
+  },
+  {
+    id: "research-writing",
+    kind: "coupon",
+    href: "/research-writing",
+    name: `${RW_TITLE} — ${RW_BATCH}`,
+    category: "Programme Materials",
+    badge: "New Batch",
+    tagline: "Batch materials, templates & resources in one place",
+    description:
+      "Access the complete Research Writing programme folder — session materials, templates and guides. Enter the coupon code shared with your batch to unlock and download.",
+    chips: ["📁 Folders", "🎟️ Coupon access", "⬇️ Download"],
+    gradient: "linear-gradient(135deg, #0F172A 0%, #7F1D1D 100%)",
+    icon: (
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+      </svg>
+    ),
+  },
+  {
+    id: "digital-product",
+    kind: "static",
+    name: "Digital Product",
+    category: "Creator Economy",
+    badge: "Premium",
+    tagline: "Build, package and sell your own digital products",
+    description:
+      "A practical playbook for turning your knowledge into digital products — from idea validation and creation to pricing, launch and selling online.",
+    price: 1999,
+    chips: ["🎯 Practical", "🚀 Launch-ready", "📩 Email access"],
+    gradient: "linear-gradient(135deg, #312E81 0%, #D42626 100%)",
+    icon: (
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+  },
+  {
+    id: "financial-literacy",
+    kind: "static",
+    name: "Financial Literacy",
+    category: "Personal Finance",
+    badge: "Essential",
+    tagline: "Master money basics every student should know",
+    description:
+      "Budgeting, saving, investing, credit and taxes explained simply — build the money habits and confidence to make smart financial decisions early.",
+    price: 599,
+    chips: ["💰 Budgeting", "📈 Investing", "📩 Email access"],
+    gradient: "linear-gradient(135deg, #064E3B 0%, #8B1A1A 100%)",
+    icon: (
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+      </svg>
+    ),
+  },
+  {
+    id: "researcher-to-entrepreneur",
+    kind: "static",
+    name: "Researcher to Entrepreneur Mastery",
+    category: "Entrepreneurship",
+    badge: "Masterclass",
+    tagline: "Turn your research into a real-world venture",
+    description:
+      "Learn how to identify commercial potential in your research, validate the market, protect your ideas, and take the first steps to building a startup.",
+    price: 799,
+    chips: ["💡 Ideation", "🏢 Startup", "📩 Email access"],
+    gradient: "linear-gradient(135deg, #1e3a5f 0%, #B45309 100%)",
+    icon: (
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
       </svg>
     ),
   },
@@ -94,7 +166,7 @@ export default function Home() {
           </div>
           <div style={s.videoOverlay} />
 
-          <div style={s.heroInner}>
+          <div style={s.heroInner} className="og-hero-anim">
           
             <h1 className="og-hero-title">
               Your Shortcut to{" "}
@@ -116,7 +188,7 @@ export default function Home() {
             <div className="og-stats-grid" style={s.statsBorder}>
               {[
                 { value: "500+", label: "Students Served" },
-                { value: "2", label: "Premium Products" },
+                { value: String(products.length), label: "Premium Products" },
                 { value: "₹1", label: "Starting Price" },
                 { value: "100%", label: "Digital Delivery" },
               ].map((st) => (
@@ -128,6 +200,8 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <FutureOfWork />
 
         {/* ── Products ── */}
         <section id="products" style={s.section}>
@@ -155,20 +229,31 @@ export default function Home() {
                     <p style={s.cardDesc}>{p.description}</p>
 
                     <div style={s.cardMeta}>
-                      <span style={s.metaChip}>📄 {p.pages} pages</span>
-                      <span style={s.metaChip}>✅ {p.topicsCount}+ {p.id === "research-guide" ? "sections" : "topics"}</span>
-                      <span style={s.metaChip}>⚡ Instant PDF</span>
+                      {p.chips.map((c) => <span key={c} style={s.metaChip}>{c}</span>)}
                     </div>
+
+                    {p.kind === "static" && (
+                      <p style={s.cardNote}>
+                        Due to high volume, available only for authenticated emails. Email{" "}
+                        <a href="mailto:support@onegrasp.com" style={s.cardNoteLink}>support@onegrasp.com</a>
+                      </p>
+                    )}
                   </div>
 
                   {/* Footer */}
                   <div style={s.cardFooter}>
-                    <div style={s.priceWrap}>
-                      <span style={s.priceOnly}>Only</span>
-                      <span style={s.priceVal}>₹{p.price}</span>
-                    </div>
-                    <Link href={`/products/${p.id}`} className="og-view-btn" style={s.viewBtn}>
-                      View Product
+                    {p.kind === "coupon" ? (
+                      <div style={s.priceWrap}>
+                        <span style={s.couponLabel}>🎟️ Coupon Access</span>
+                      </div>
+                    ) : (
+                      <div style={s.priceWrap}>
+                        <span style={s.priceOnly}>{p.kind === "static" ? "Price" : "Only"}</span>
+                        <span style={s.priceVal}>₹{p.price.toLocaleString("en-IN")}</span>
+                      </div>
+                    )}
+                    <Link href={p.href || `/products/${p.id}`} className="og-view-btn" style={s.viewBtn}>
+                      {p.kind === "coupon" ? "Open Folder" : "View Product"}
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
                       </svg>
@@ -430,6 +515,24 @@ const s = {
     marginBottom: "14px",
   },
   cardMeta: { display: "flex", gap: "8px", flexWrap: "wrap" },
+  cardNote: {
+    marginTop: "14px",
+    background: "#FFFBEB",
+    border: "1px solid #FDE68A",
+    color: "#92400E",
+    borderRadius: "10px",
+    padding: "9px 12px",
+    fontSize: "0.74rem",
+    lineHeight: 1.55,
+    fontFamily: "'Poppins', sans-serif",
+  },
+  cardNoteLink: { color: "#D42626", fontWeight: 700, textDecoration: "none" },
+  couponLabel: {
+    fontSize: "0.85rem",
+    fontWeight: 700,
+    color: "#0F172A",
+    fontFamily: "'Poppins', sans-serif",
+  },
   metaChip: {
     background: "#F1F5F9",
     color: "#64748B",

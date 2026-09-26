@@ -9,8 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div style={s.logo}>
-              <span style={s.logoOne}>One</span>
-              <span style={s.logoGrasp}>Grasp</span>
+              <img src="/images/onegrasp-logo-light.png" alt="OneGrasp" width="102" height="60" style={{ height: 60, width: "auto", display: "block" }} />
             </div>
             <p style={s.tagline}>
               Premium digital resources for students, researchers, and academics across India and beyond.
@@ -26,6 +25,10 @@ export default function Footer() {
             <h4 style={s.colTitle}>Products</h4>
             <Link href="/products/research-guide" className="og-footer-link" style={s.colLink}>Research Programme Guide</Link>
             <Link href="/products/research-topics" className="og-footer-link" style={s.colLink}>Research Topics</Link>
+            <Link href="/research-writing" className="og-footer-link" style={s.colLink}>Research Writing</Link>
+            <Link href="/products/digital-product" className="og-footer-link" style={s.colLink}>Digital Product</Link>
+            <Link href="/products/financial-literacy" className="og-footer-link" style={s.colLink}>Financial Literacy</Link>
+            <Link href="/products/researcher-to-entrepreneur" className="og-footer-link" style={s.colLink}>Researcher to Entrepreneur</Link>
           </div>
 
           {/* Contact */}
@@ -69,22 +72,7 @@ const s = {
   },
   logo: {
     display: "flex",
-    alignItems: "baseline",
     marginBottom: "14px",
-  },
-  logoOne: {
-    fontSize: "1.4rem",
-    fontWeight: 800,
-    color: "#94A3B8",
-    fontFamily: "'Poppins', sans-serif",
-    letterSpacing: "-0.5px",
-  },
-  logoGrasp: {
-    fontSize: "1.4rem",
-    fontWeight: 800,
-    color: "#D42626",
-    fontFamily: "'Poppins', sans-serif",
-    letterSpacing: "-0.5px",
   },
   tagline: {
     fontSize: "0.84rem",

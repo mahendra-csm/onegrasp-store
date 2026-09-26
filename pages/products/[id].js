@@ -54,9 +54,85 @@ const PRODUCTS_DATA = {
     whoFor: ["High School Students", "Undergraduate Students", "Postgraduate Students", "PhD Scholars", "Research Assistants", "Academic Writers"],
     highlights: ["100+ curated topics", "8 major academic domains", "Scope & feasibility notes", "Trending & publishable", "Updated for 2025–26"],
   },
+  "digital-product": {
+    static: true,
+    name: "Digital Product",
+    category: "Creator Economy",
+    badge: "Premium",
+    tagline: "Build, package and sell your own digital products",
+    description:
+      "A practical playbook for turning your knowledge into digital products — from idea validation and creation to pricing, launch and selling online. Built for students, researchers and educators who want to create an independent income stream.",
+    price: 1999,
+    gradient: "linear-gradient(135deg, #312E81 0%, #D42626 100%)",
+    whatInside: [
+      { title: "Finding Your Product Idea", desc: "Identify what you know that others will pay for, and pick the right product format." },
+      { title: "Validating Demand", desc: "Test your idea with real people before investing time in building it." },
+      { title: "Creating the Product", desc: "Structure and produce e-books, templates, courses and toolkits efficiently." },
+      { title: "Pricing Strategy", desc: "Set prices that reflect value, with tiers, bundles and launch offers." },
+      { title: "Selling Online", desc: "Set up storefronts, payment gateways and instant digital delivery." },
+      { title: "Launch & Marketing", desc: "Plan a launch, grow an audience and market through social media and email." },
+    ],
+    whoFor: ["Students", "Researchers", "Educators", "Freelancers", "Aspiring Creators", "Working Professionals"],
+    highlights: ["Idea-to-launch roadmap", "Pricing & positioning frameworks", "Online selling setup", "Marketing playbook", "Practical templates"],
+  },
+  "financial-literacy": {
+    static: true,
+    name: "Financial Literacy",
+    category: "Personal Finance",
+    badge: "Essential",
+    tagline: "Master money basics every student should know",
+    description:
+      "Budgeting, saving, investing, credit and taxes explained simply. Build the money habits and confidence to make smart financial decisions early — with examples relevant to students and young professionals in India.",
+    price: 599,
+    gradient: "linear-gradient(135deg, #064E3B 0%, #8B1A1A 100%)",
+    whatInside: [
+      { title: "Budgeting Basics", desc: "Track income and expenses and build a budget you can actually stick to." },
+      { title: "Saving & Emergency Funds", desc: "How much to save, where to keep it, and why an emergency fund comes first." },
+      { title: "Banking & Digital Payments", desc: "Accounts, UPI, cards and staying safe from common financial frauds." },
+      { title: "Credit & Loans", desc: "Credit scores, education loans, EMIs and using credit responsibly." },
+      { title: "Introduction to Investing", desc: "Mutual funds, SIPs, stocks, and the power of compounding." },
+      { title: "Taxes & Financial Planning", desc: "Income tax basics and setting long-term financial goals." },
+    ],
+    whoFor: ["High School Students", "College Students", "Postgraduates", "Young Professionals", "First-time Earners", "Parents"],
+    highlights: ["Beginner-friendly", "India-specific examples", "Budgeting templates", "Investing fundamentals", "Fraud-safety tips"],
+  },
+  "researcher-to-entrepreneur": {
+    static: true,
+    name: "Researcher to Entrepreneur Mastery",
+    category: "Entrepreneurship",
+    badge: "Masterclass",
+    tagline: "Turn your research into a real-world venture",
+    description:
+      "Learn how to identify commercial potential in your research, validate the market, protect your ideas, and take the first steps toward building a startup — a structured path from lab or library to launch.",
+    price: 799,
+    gradient: "linear-gradient(135deg, #1e3a5f 0%, #B45309 100%)",
+    whatInside: [
+      { title: "Research Commercialisation", desc: "Spot the problems your research solves and who would pay for the solution." },
+      { title: "Market Validation", desc: "Customer discovery, competitor analysis and product–market fit." },
+      { title: "Intellectual Property", desc: "Patents, copyrights and protecting your ideas before you share them." },
+      { title: "Business Models", desc: "Choose how your venture creates, delivers and captures value." },
+      { title: "Funding & Grants", desc: "Startup India, incubators, research grants, angels and early-stage funding." },
+      { title: "Pitching Your Venture", desc: "Build a compelling pitch deck and present to investors and incubators." },
+    ],
+    whoFor: ["PhD Scholars", "Postgraduate Researchers", "Faculty Members", "Research Assistants", "Student Innovators", "Aspiring Founders"],
+    highlights: ["Research-to-startup roadmap", "IP & patent basics", "Funding & grant guidance", "Pitch deck framework", "Real-world case studies"],
+  },
 };
 
-const OTHER = { "research-guide": "research-topics", "research-topics": "research-guide" };
+const OTHER = {
+  "research-guide": "research-topics",
+  "research-topics": "research-guide",
+  "digital-product": "financial-literacy",
+  "financial-literacy": "researcher-to-entrepreneur",
+  "researcher-to-entrepreneur": "digital-product",
+};
+
+const STATIC_META = [
+  { icon: "🎓", val: "Expert", lbl: "Curated" },
+  { icon: "🔒", val: "Verified", lbl: "Emails only" },
+  { icon: "📩", val: "Email", lbl: "Request" },
+  { icon: "💳", val: "One-time", lbl: "Price" },
+];
 
 export default function ProductPage() {
   const router = useRouter();
@@ -214,12 +290,12 @@ export default function ProductPage() {
                   <p style={s.heroDesc}>{product.description}</p>
                   {/* Meta row */}
                   <div className="og-meta-row">
-                    {[
+                    {(product.static ? STATIC_META : [
                       { icon: "📄", val: product.pages, lbl: "Pages" },
                       { icon: "✅", val: `${product.topicsCount}+`, lbl: id === "research-guide" ? "Sections" : "Topics" },
                       { icon: "⚡", val: "PDF", lbl: "Format" },
                       { icon: "🚀", val: "Instant", lbl: "Delivery" },
-                    ].map((m, i, arr) => (
+                    ]).map((m, i, arr) => (
                       <>
                         <div key={m.lbl} style={s.metaItem}>
                           <span style={s.metaIcon}>{m.icon}</span>
@@ -288,13 +364,30 @@ export default function ProductPage() {
                 {/* Price header */}
                 <div style={s.buyTop}>
                   <div style={s.priceRow}>
-                    <span style={s.priceOnly}>Only</span>
-                    <span style={s.priceAmt}>₹{product.price}</span>
+                    <span style={s.priceOnly}>{product.static ? "Price" : "Only"}</span>
+                    <span style={s.priceAmt}>₹{product.price.toLocaleString("en-IN")}</span>
                   </div>
-                  <p style={s.priceNote}>One-time · Instant PDF delivery</p>
+                  <p style={s.priceNote}>{product.static ? "One-time · Available on request" : "One-time · Instant PDF delivery"}</p>
                 </div>
 
-                {/* Form */}
+                {product.static ? (
+                  <div style={s.buyBody}>
+                    <div style={s.volumeNote}>
+                      <strong style={{ display: "block", marginBottom: 4 }}>High demand notice</strong>
+                      Due to high volume, we are currently offering this only to authenticated emails. If you would like access, please send us an email at{" "}
+                      <a href="mailto:support@onegrasp.com" style={s.supportLink}>support@onegrasp.com</a>.
+                    </div>
+                    <a
+                      href={`mailto:support@onegrasp.com?subject=${encodeURIComponent(`Access request: ${product.name}`)}`}
+                      className="og-request-btn"
+                    >
+                      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                      </svg>
+                      Request Access by Email
+                    </a>
+                  </div>
+                ) : (
                 <div style={s.buyBody}>
                   <label style={s.emailLabel}>Your Email Address</label>
                   <input
@@ -331,6 +424,7 @@ export default function ProductPage() {
                     ))}
                   </div>
                 </div>
+                )}
 
                 {/* Support */}
                 <div style={s.buySupport}>
@@ -555,6 +649,11 @@ const s = {
   priceNote: { fontSize: "0.75rem", color: "#475569", fontFamily: "'Poppins', sans-serif" },
 
   buyBody: { padding: "22px 24px" },
+  volumeNote: {
+    background: "#FFFBEB", border: "1px solid #FDE68A", color: "#92400E",
+    borderRadius: "10px", padding: "12px 14px", fontSize: "0.8rem", lineHeight: 1.6,
+    fontFamily: "'Poppins', sans-serif", marginBottom: "16px",
+  },
   emailLabel: {
     display: "block", fontSize: "0.8rem", fontWeight: 700,
     color: "#0F172A", fontFamily: "'Poppins', sans-serif", marginBottom: "8px",

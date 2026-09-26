@@ -9,8 +9,7 @@ export default function Navbar() {
       <div style={s.inner}>
         {/* Logo */}
         <Link href="/" style={s.logo}>
-          <span style={s.logoOne}>One</span>
-          <span style={s.logoGrasp}>Grasp</span>
+          <img src="/images/onegrasp-logo.png" alt="OneGrasp" width="81" height="48" style={{ height: 48, width: "auto", display: "block" }} />
         </Link>
 
         {/* Desktop links — hidden on mobile via CSS class */}
@@ -75,21 +74,7 @@ const s = {
   logo: {
     textDecoration: "none",
     display: "flex",
-    alignItems: "baseline",
-  },
-  logoOne: {
-    fontSize: "1.5rem",
-    fontWeight: 800,
-    color: "#555555",
-    fontFamily: "'Poppins', sans-serif",
-    letterSpacing: "-0.5px",
-  },
-  logoGrasp: {
-    fontSize: "1.5rem",
-    fontWeight: 800,
-    color: "#D42626",
-    fontFamily: "'Poppins', sans-serif",
-    letterSpacing: "-0.5px",
+    alignItems: "center",
   },
   link: {
     textDecoration: "none",
