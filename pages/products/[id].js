@@ -198,7 +198,7 @@ export default function ProductPage() {
               <div style={s.block}>
                 <h2 style={s.blockTitle}><span style={s.red}>What's</span> Inside</h2>
                 <div className="og-inside-grid">
-                  {product.whatInside.map((item, i) => (
+                  {product.whatInside.slice(0, 5).map((item, i) => (
                     <div key={i} style={s.insideCard}>
                       <div style={s.insideNum}>{String(i + 1).padStart(2, "0")}</div>
                       <div>
@@ -266,7 +266,7 @@ export default function ProductPage() {
                       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                       </svg>
-                      Request Access by Email
+                      Get Access
                     </a>
                   </div>
 
