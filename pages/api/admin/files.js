@@ -1,5 +1,5 @@
 import { requireAdmin } from "../../../lib/auth";
-import { deleteStoredFiles, newId, storageMode, updateDb } from "../../../lib/storage";
+import { deleteStoredFiles, newId, storageMode, updateDb, errorMessage } from "../../../lib/storage";
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
@@ -43,6 +43,6 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
   } catch (e) {
     console.error("Files API error:", e);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ error: errorMessage(e) });
   }
 }

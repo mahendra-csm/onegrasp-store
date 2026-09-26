@@ -5,14 +5,14 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { RW_BATCH, RW_TITLE, formatSize } from "../lib/format";
 
-const FolderIcon = ({ size = 28, color = "#D42626" }) => (
+const FolderIcon = ({ size = 28, color = "#DB3433" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
   </svg>
 );
 
 const FileIcon = () => (
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D42626" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" />
   </svg>
 );
@@ -104,7 +104,7 @@ export default function ResearchWriting() {
           {status === "locked" && (
             <form onSubmit={redeem} style={s.lockCard}>
               <div style={s.lockIcon}>
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D42626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="3" y="11" width="18" height="11" rx="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
                 </svg>
               </div>
@@ -132,7 +132,7 @@ export default function ResearchWriting() {
             <>
               <div style={s.toolbar}>
                 <div style={s.granted}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2.5"><polyline points="20 6 9 17 4 12" /></svg>
                   Access granted
                 </div>
                 <button onClick={exit} style={s.ghostBtn}>Use a different code</button>
@@ -191,85 +191,85 @@ export default function ResearchWriting() {
 const font = "'Poppins', sans-serif";
 
 const s = {
-  main: { background: "#F8F9FA", minHeight: "70vh" },
+  main: { background: "#FFFFFF", minHeight: "70vh" },
   banner: {
-    background: "linear-gradient(135deg, #0F172A 0%, #7F1D1D 100%)",
-    padding: "56px 20px 48px",
+    padding: "32px 20px 24px",
     textAlign: "center",
+    borderBottom: "1px solid #E5E7EB",
   },
   bannerBadge: {
-    display: "inline-block", background: "rgba(255,255,255,0.15)", color: "#FFFFFF",
-    border: "1px solid rgba(255,255,255,0.3)", padding: "4px 14px", borderRadius: "100px",
-    fontSize: "0.7rem", fontWeight: 700, fontFamily: font, marginBottom: "12px",
+    display: "inline-block", color: "#DB3433", background: "#FEF2F2",
+    padding: "4px 14px", borderRadius: "100px",
+    fontSize: "0.7rem", fontWeight: 700, fontFamily: font, marginBottom: "10px",
     textTransform: "uppercase", letterSpacing: "0.06em",
   },
   bannerTitle: {
-    fontSize: "clamp(1.5rem, 3vw, 2.2rem)", fontWeight: 800, color: "#FFFFFF",
-    fontFamily: font, letterSpacing: "-0.03em", marginBottom: "10px",
+    fontSize: "clamp(1.5rem, 3vw, 2.1rem)", fontWeight: 800, color: "#1F2937",
+    fontFamily: font, letterSpacing: "-0.03em", marginBottom: "6px",
   },
-  bannerSub: { fontSize: "0.92rem", color: "rgba(255,255,255,0.8)", fontFamily: font, maxWidth: 560, margin: "0 auto", lineHeight: 1.6 },
+  bannerSub: { fontSize: "0.9rem", color: "#6B7280", fontFamily: font, maxWidth: 560, margin: "0 auto", lineHeight: 1.6 },
 
-  breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E2E8F0" },
+  breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E5E7EB" },
   breadInner: {
     maxWidth: "1200px", margin: "0 auto", padding: "12px 20px",
     display: "flex", alignItems: "center", gap: "8px",
     fontFamily: font, fontSize: "0.8rem", flexWrap: "wrap",
   },
-  breadLink: { color: "#64748B", textDecoration: "none", fontWeight: 500 },
-  breadBtn: { color: "#64748B", fontWeight: 500, background: "none", border: "none", cursor: "pointer", fontFamily: font, fontSize: "0.8rem", padding: 0 },
-  breadSep: { color: "#CBD5E1" },
-  breadCurrent: { color: "#0F172A", fontWeight: 600 },
+  breadLink: { color: "#6B7280", textDecoration: "none", fontWeight: 500 },
+  breadBtn: { color: "#6B7280", fontWeight: 500, background: "none", border: "none", cursor: "pointer", fontFamily: font, fontSize: "0.8rem", padding: 0 },
+  breadSep: { color: "#D1D5DB" },
+  breadCurrent: { color: "#1F2937", fontWeight: 600 },
 
-  wrap: { maxWidth: "1200px", margin: "0 auto", padding: "40px 20px 80px" },
-  muted: { fontFamily: font, color: "#64748B", textAlign: "center", fontSize: "0.9rem" },
+  wrap: { maxWidth: "1200px", margin: "0 auto", padding: "28px 20px 48px" },
+  muted: { fontFamily: font, color: "#6B7280", textAlign: "center", fontSize: "0.9rem" },
 
   lockCard: {
     maxWidth: 440, margin: "0 auto", background: "#FFFFFF", borderRadius: 18,
-    border: "1px solid #E2E8F0", boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
+    border: "1px solid #E5E7EB", boxShadow: "0 8px 32px rgba(0,0,0,0.08)",
     padding: "36px 28px", textAlign: "center",
   },
   lockIcon: {
     width: 60, height: 60, borderRadius: 16, background: "#FEF2F2",
     display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px",
   },
-  lockTitle: { fontFamily: font, fontSize: "1.25rem", fontWeight: 800, color: "#0F172A", marginBottom: 8 },
-  lockSub: { fontFamily: font, fontSize: "0.85rem", color: "#64748B", lineHeight: 1.6, marginBottom: 20 },
+  lockTitle: { fontFamily: font, fontSize: "1.25rem", fontWeight: 800, color: "#1F2937", marginBottom: 8 },
+  lockSub: { fontFamily: font, fontSize: "0.85rem", color: "#6B7280", lineHeight: 1.6, marginBottom: 20 },
   codeInput: {
-    width: "100%", padding: "13px 14px", borderRadius: 10, border: "1.5px solid #E2E8F0",
+    width: "100%", padding: "13px 14px", borderRadius: 10, border: "1.5px solid #E5E7EB",
     fontSize: "1rem", fontFamily: font, fontWeight: 700, letterSpacing: "0.08em",
-    textAlign: "center", color: "#0F172A", background: "#F8F9FA",
+    textAlign: "center", color: "#1F2937", background: "#FFFFFF",
   },
-  error: { color: "#D42626", fontSize: "0.8rem", fontWeight: 600, fontFamily: font, marginTop: 8 },
-  help: { fontFamily: font, fontSize: "0.78rem", color: "#64748B", marginTop: 4 },
-  link: { color: "#D42626", fontWeight: 600, textDecoration: "none" },
+  error: { color: "#DB3433", fontSize: "0.8rem", fontWeight: 600, fontFamily: font, marginTop: 8 },
+  help: { fontFamily: font, fontSize: "0.78rem", color: "#6B7280", marginTop: 4 },
+  link: { color: "#DB3433", fontWeight: 600, textDecoration: "none" },
 
   toolbar: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 24, flexWrap: "wrap" },
-  granted: { display: "flex", alignItems: "center", gap: 8, fontFamily: font, fontWeight: 600, color: "#16a34a", fontSize: "0.88rem" },
+  granted: { display: "flex", alignItems: "center", gap: 8, fontFamily: font, fontWeight: 600, color: "#DB3433", fontSize: "0.88rem" },
   ghostBtn: {
-    background: "#FFFFFF", border: "1.5px solid #E2E8F0", borderRadius: 9, padding: "8px 14px",
-    fontFamily: font, fontSize: "0.8rem", fontWeight: 600, color: "#475569", cursor: "pointer",
+    background: "#FFFFFF", border: "1.5px solid #E5E7EB", borderRadius: 9, padding: "8px 14px",
+    fontFamily: font, fontSize: "0.8rem", fontWeight: 600, color: "#4B5563", cursor: "pointer",
   },
 
   folderCard: {
     display: "flex", alignItems: "center", gap: 16, textAlign: "left", width: "100%",
-    background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 16, padding: "22px 20px",
+    background: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: 16, padding: "22px 20px",
     boxShadow: "0 2px 12px rgba(0,0,0,0.05)", cursor: "pointer", fontFamily: font,
   },
   folderIconWrap: {
     width: 52, height: 52, borderRadius: 12, background: "#FEF2F2", flexShrink: 0,
     display: "flex", alignItems: "center", justifyContent: "center",
   },
-  folderName: { fontWeight: 700, color: "#0F172A", fontSize: "0.95rem", overflowWrap: "anywhere" },
-  folderCount: { color: "#64748B", fontSize: "0.78rem", marginTop: 2 },
+  folderName: { fontWeight: 700, color: "#1F2937", fontSize: "0.95rem", overflowWrap: "anywhere" },
+  folderCount: { color: "#6B7280", fontSize: "0.78rem", marginTop: 2 },
 
-  fileCard: { background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 16, overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.05)" },
-  fileHead: { display: "flex", alignItems: "center", gap: 14, padding: "16px 20px", borderBottom: "1px solid #F1F5F9", flexWrap: "wrap" },
-  fileHeadTitle: { fontFamily: font, fontSize: "1.05rem", fontWeight: 800, color: "#0F172A", overflowWrap: "anywhere" },
-  fileRow: { display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid #F1F5F9" },
-  fileName: { fontFamily: font, fontWeight: 600, color: "#0F172A", fontSize: "0.88rem", overflowWrap: "anywhere" },
-  fileMeta: { fontFamily: font, color: "#94A3B8", fontSize: "0.74rem", marginTop: 2 },
+  fileCard: { background: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: 16, overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.05)" },
+  fileHead: { display: "flex", alignItems: "center", gap: 14, padding: "16px 20px", borderBottom: "1px solid #F3F4F6", flexWrap: "wrap" },
+  fileHeadTitle: { fontFamily: font, fontSize: "1.05rem", fontWeight: 800, color: "#1F2937", overflowWrap: "anywhere" },
+  fileRow: { display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid #F3F4F6" },
+  fileName: { fontFamily: font, fontWeight: 600, color: "#1F2937", fontSize: "0.88rem", overflowWrap: "anywhere" },
+  fileMeta: { fontFamily: font, color: "#9CA3AF", fontSize: "0.74rem", marginTop: 2 },
   dlBtn: {
-    background: "#D42626", color: "#FFFFFF", padding: "9px 16px", borderRadius: 9, textDecoration: "none",
+    background: "#DB3433", color: "#FFFFFF", padding: "9px 16px", borderRadius: 9, textDecoration: "none",
     fontFamily: font, fontWeight: 700, fontSize: "0.8rem", whiteSpace: "nowrap", flexShrink: 0,
   },
 };

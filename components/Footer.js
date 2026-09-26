@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <div style={s.logo}>
-              <img src="/images/onegrasp-logo-light.png" alt="OneGrasp" width="102" height="60" style={{ height: 60, width: "auto", display: "block" }} />
+              <img src="/images/onegrasp-logo.png" alt="OneGrasp" width="85" height="50" style={{ height: 50, width: "auto", display: "block" }} />
             </div>
             <p style={s.tagline}>
               Premium digital resources for students, researchers, and academics across India and beyond.
@@ -60,10 +60,10 @@ export default function Footer() {
 
 const s = {
   footer: {
-    background: "#0F172A",
-    paddingTop: "56px",
-    paddingBottom: "32px",
-    marginTop: "80px",
+    background: "#FFFFFF",
+    borderTop: "1px solid #E5E7EB",
+    paddingTop: "32px",
+    paddingBottom: "20px",
   },
   inner: {
     maxWidth: "1200px",
@@ -77,7 +77,7 @@ const s = {
   tagline: {
     fontSize: "0.84rem",
     lineHeight: 1.7,
-    color: "#64748B",
+    color: "#6B7280",
     marginBottom: "18px",
     maxWidth: "300px",
   },
@@ -87,13 +87,12 @@ const s = {
     flexWrap: "wrap",
   },
   badge: {
-    background: "#1E293B",
-    color: "#94A3B8",
+    background: "#F3F4F6",
+    color: "#4B5563",
     padding: "4px 12px",
     borderRadius: "100px",
     fontSize: "0.72rem",
     fontWeight: 500,
-    border: "1px solid #334155",
     fontFamily: "'Poppins', sans-serif",
   },
   col: {
@@ -102,21 +101,21 @@ const s = {
     gap: "10px",
   },
   colTitle: {
-    color: "#F1F5F9",
+    color: "#1F2937",
     fontSize: "0.88rem",
     fontWeight: 700,
     fontFamily: "'Poppins', sans-serif",
     marginBottom: "4px",
   },
   colLink: {
-    color: "#64748B",
+    color: "#6B7280",
     textDecoration: "none",
     fontSize: "0.83rem",
     fontFamily: "'Poppins', sans-serif",
     transition: "color 0.2s",
   },
   address: {
-    color: "#475569",
+    color: "#4B5563",
     fontSize: "0.83rem",
     fontFamily: "'Poppins', sans-serif",
     marginTop: "4px",
@@ -125,12 +124,12 @@ const s = {
     gap: "6px",
   },
   divider: {
-    borderTop: "1px solid #1E293B",
-    margin: "36px 0 22px",
+    borderTop: "1px solid #E5E7EB",
+    margin: "24px 0 16px",
   },
   copy: {
     fontSize: "0.78rem",
-    color: "#475569",
+    color: "#6B7280",
     fontFamily: "'Poppins', sans-serif",
   },
 };

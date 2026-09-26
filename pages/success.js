@@ -52,17 +52,17 @@ export default function Success() {
           <div style={s.steps}>
             {[
               {
-                icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D42626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+                icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
                 title: "Check Your Inbox",
                 desc: "Open the email from OneGrasp and download your PDF.",
               },
               {
-                icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D42626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
+                icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
                 title: "Check Spam / Junk Folder",
                 desc: "If not in inbox, it may be in your spam folder.",
               },
               {
-                icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D42626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
+                icon: <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>,
                 title: "Need Help?",
                 desc: (
                   <>
@@ -105,7 +105,7 @@ export default function Success() {
 
 const s = {
   main: {
-    background: "#F8F9FA",
+    background: "#FFFFFF",
     minHeight: "70vh",
     display: "flex",
     alignItems: "center",
@@ -114,39 +114,39 @@ const s = {
   },
   iconWrap: {
     width: "76px", height: "76px",
-    background: "linear-gradient(135deg, #16a34a, #15803d)",
+    background: "#DB3433",
     borderRadius: "50%",
     display: "flex", alignItems: "center", justifyContent: "center",
     margin: "0 auto 18px",
-    boxShadow: "0 10px 30px rgba(22,163,74,0.3)",
+    boxShadow: "0 10px 30px rgba(219,52,51,0.3)",
   },
   pill: {
     display: "inline-block",
-    background: "#F0FDF4", color: "#16a34a",
-    border: "1px solid #BBF7D0",
+    background: "#FEF2F2", color: "#DB3433",
+    border: "1px solid #FECACA",
     padding: "4px 14px", borderRadius: "100px",
     fontSize: "0.72rem", fontWeight: 700,
     fontFamily: "'Poppins', sans-serif",
     marginBottom: "14px", letterSpacing: "0.04em", textTransform: "uppercase",
   },
   title: {
-    fontSize: "1.9rem", fontWeight: 800, color: "#0F172A",
+    fontSize: "1.9rem", fontWeight: 800, color: "#1F2937",
     fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.03em", marginBottom: "12px",
   },
   body: {
-    fontSize: "0.92rem", color: "#64748B",
+    fontSize: "0.92rem", color: "#6B7280",
     fontFamily: "'Poppins', sans-serif", lineHeight: 1.7, marginBottom: "24px",
   },
-  emailHL: { color: "#0F172A", fontWeight: 700 },
+  emailHL: { color: "#1F2937", fontWeight: 700 },
 
   steps: {
     display: "flex", flexDirection: "column",
-    background: "#F8F9FA", border: "1px solid #E2E8F0",
+    background: "#FFFFFF", border: "1px solid #E5E7EB",
     borderRadius: "14px", overflow: "hidden", marginBottom: "24px", textAlign: "left",
   },
   step: {
     display: "flex", gap: "12px", padding: "14px 18px",
-    alignItems: "flex-start", borderBottom: "1px solid #F1F5F9",
+    alignItems: "flex-start", borderBottom: "1px solid #F3F4F6",
   },
   stepIconWrap: {
     width: "34px", height: "34px",
@@ -154,14 +154,14 @@ const s = {
     display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
   },
   stepTitle: {
-    fontSize: "0.83rem", fontWeight: 700, color: "#0F172A",
+    fontSize: "0.83rem", fontWeight: 700, color: "#1F2937",
     fontFamily: "'Poppins', sans-serif", marginBottom: "2px",
   },
   stepDesc: {
-    fontSize: "0.76rem", color: "#64748B",
+    fontSize: "0.76rem", color: "#6B7280",
     fontFamily: "'Poppins', sans-serif", lineHeight: 1.5,
   },
-  link: { color: "#D42626", textDecoration: "none", fontWeight: 600 },
+  link: { color: "#DB3433", textDecoration: "none", fontWeight: 600 },
 
   countdownRow: {
     display: "flex", alignItems: "center", justifyContent: "center",
@@ -171,20 +171,20 @@ const s = {
     width: "34px", height: "34px",
     background: "#FEF2F2", border: "2px solid #FECACA",
     borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-    fontSize: "0.88rem", fontWeight: 800, color: "#D42626", fontFamily: "'Poppins', sans-serif",
+    fontSize: "0.88rem", fontWeight: 800, color: "#DB3433", fontFamily: "'Poppins', sans-serif",
   },
   countdownText: {
-    fontSize: "0.8rem", color: "#94A3B8",
+    fontSize: "0.8rem", color: "#9CA3AF",
     fontFamily: "'Poppins', sans-serif", fontStyle: "italic",
   },
   homeBtn: {
     display: "inline-flex", alignItems: "center", gap: "8px",
     padding: "13px 30px",
-    background: "#D42626", color: "#FFFFFF",
+    background: "#DB3433", color: "#FFFFFF",
     border: "none", borderRadius: "10px", cursor: "pointer",
     fontWeight: 700, fontSize: "0.93rem",
     fontFamily: "'Poppins', sans-serif",
-    boxShadow: "0 4px 16px rgba(212,38,38,0.3)",
+    boxShadow: "0 4px 16px rgba(219,52,51,0.3)",
     transition: "background 0.2s, transform 0.15s",
   },
 };

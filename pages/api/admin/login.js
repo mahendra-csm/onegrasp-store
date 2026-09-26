@@ -1,7 +1,6 @@
-import { ADMIN_COOKIE, safeEqual, setCookie, signToken, sleep } from "../../../lib/auth";
+import { ADMIN_COOKIE, ADMIN_PASSWORD, safeEqual, setCookie, signToken, sleep } from "../../../lib/auth";
 
 const SESSION_HOURS = 12;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "OneGrasp@3070";
 
 export default async function handler(req, res) {
   if (req.method === "DELETE") {
@@ -15,7 +14,12 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: "Incorrect password" });
   }
 
-  const token = signToken({ role: "admin", exp: Date.now() + SESSION_HOURS * 3600 * 1000 });
-  setCookie(res, ADMIN_COOKIE, token, SESSION_HOURS * 3600);
-  res.status(200).json({ ok: true });
+  try {
+    const token = signToken({ role: "admin", exp: Date.now() + SESSION_HOURS * 3600 * 1000 });
+    setCookie(res, ADMIN_COOKIE, token, SESSION_HOURS * 3600);
+    res.status(200).json({ ok: true });
+  } catch (e) {
+    console.error("Admin login error:", e);
+    res.status(500).json({ error: "Login failed on the server. Please try again." });
+  }
 }

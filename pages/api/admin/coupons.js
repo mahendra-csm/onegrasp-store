@@ -1,5 +1,5 @@
 import { requireAdmin } from "../../../lib/auth";
-import { newId, normalizeCode, updateDb } from "../../../lib/storage";
+import { newId, normalizeCode, updateDb, errorMessage } from "../../../lib/storage";
 
 function parseCoupon(body, db) {
   const code = normalizeCode(body.code);
@@ -73,6 +73,6 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
   } catch (e) {
     console.error("Coupons API error:", e);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ error: errorMessage(e) });
   }
 }

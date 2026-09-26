@@ -10,7 +10,7 @@ async function api(url, method = "GET", body) {
     body: body ? JSON.stringify(body) : undefined,
   });
   const data = await r.json().catch(() => ({}));
-  if (!r.ok) throw Object.assign(new Error(data.error || "Request failed"), { status: r.status });
+  if (!r.ok) throw Object.assign(new Error(data.error || `Server error (${r.status}). Please try again.`), { status: r.status });
   return data;
 }
 
@@ -52,7 +52,7 @@ function randomCode() {
 }
 
 function couponStatus(c) {
-  if (!c.active) return { label: "Disabled", color: "#64748B", bg: "#F1F5F9" };
+  if (!c.active) return { label: "Disabled", color: "#6B7280", bg: "#F3F4F6" };
   if (c.expiresAt && Date.parse(c.expiresAt) < Date.now()) return { label: "Expired", color: "#B45309", bg: "#FEF3C7" };
   if (c.maxUses != null && c.uses >= c.maxUses) return { label: "Used up", color: "#B45309", bg: "#FEF3C7" };
   return { label: "Active", color: "#15803D", bg: "#DCFCE7" };
@@ -110,6 +110,12 @@ export default function Admin() {
               </div>
             </div>
 
+            {state.storage === "none" && (
+              <div style={{ ...s.warn, background: "#FEF2F2", borderColor: "#FECACA", color: "#991B1B" }}>
+                <strong>File storage is not connected yet.</strong> You can't create folders, upload files or add coupons until it is.
+                In Vercel: open your project → <strong>Storage</strong> → <strong>Create Database</strong> → <strong>Blob</strong> → connect it to this project, then <strong>Deployments → ⋯ → Redeploy</strong>.
+              </div>
+            )}
             {state.storage === "local" && (
               <div style={s.warn}>
                 <strong>Local storage mode.</strong> Files are saved in this computer's <code>data/</code> folder. This works for testing and self-hosted servers, but uploads will <strong>not</strong> persist on Vercel — set <code>BLOB_READ_WRITE_TOKEN</code> before going live.
@@ -130,7 +136,7 @@ export default function Admin() {
           </div>
         )}
 
-        {flash && <div style={{ ...s.flash, background: flash.isError ? "#B91C1C" : "#0F172A" }}>{flash.msg}</div>}
+        {flash && <div style={{ ...s.flash, background: flash.isError ? "#C0292A" : "#1F2937" }}>{flash.msg}</div>}
       </div>
     </>
   );
@@ -280,7 +286,7 @@ function Materials({ state, refresh, notify }) {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => { e.preventDefault(); handleFiles(f.id, e.dataTransfer.files); }}>
                     <input ref={fileInput} type="file" multiple style={{ display: "none" }} onChange={(e) => handleFiles(f.id, e.target.files)} />
-                    <strong style={{ color: "#D42626" }}>Click to upload</strong> or drag & drop files here (PDF, DOCX, PPTX, ZIP… up to 500 MB each)
+                    <strong style={{ color: "#DB3433" }}>Click to upload</strong> or drag & drop files here (PDF, DOCX, PPTX, ZIP… up to 500 MB each)
                   </label>
 
                   {uploads.length > 0 && (
@@ -474,59 +480,59 @@ const font = "'Poppins', sans-serif";
 const btn = { borderRadius: 9, padding: "9px 14px", fontFamily: font, fontSize: "0.8rem", fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" };
 
 const s = {
-  page: { minHeight: "100vh", background: "#F8F9FA", fontFamily: font },
+  page: { minHeight: "100vh", background: "#FFFFFF", fontFamily: font },
   header: {
-    background: "#FFFFFF", borderBottom: "1px solid #E2E8F0", height: 64, padding: "0 20px",
+    background: "#FFFFFF", borderBottom: "1px solid #E5E7EB", height: 64, padding: "0 20px",
     display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 10,
   },
   logo: { textDecoration: "none", fontSize: "1.4rem", fontWeight: 800, display: "flex", alignItems: "center" },
-  adminTag: { marginLeft: 10, fontSize: "0.68rem", background: "#0F172A", color: "#FFF", padding: "3px 9px", borderRadius: 100, textTransform: "uppercase", letterSpacing: "0.05em" },
+  adminTag: { marginLeft: 10, fontSize: "0.68rem", background: "#1F2937", color: "#FFF", padding: "3px 9px", borderRadius: 100, textTransform: "uppercase", letterSpacing: "0.05em" },
   wrap: { maxWidth: 1000, margin: "0 auto", padding: "28px 16px 80px" },
   titleRow: { marginBottom: 16 },
-  h1: { fontSize: "1.45rem", fontWeight: 800, color: "#0F172A", letterSpacing: "-0.02em" },
-  batch: { fontSize: "0.75rem", fontWeight: 700, color: "#D42626", background: "#FEF2F2", padding: "3px 10px", borderRadius: 100, verticalAlign: "middle" },
-  h2: { fontSize: "1.02rem", fontWeight: 800, color: "#0F172A", marginBottom: 14 },
-  sub: { fontSize: "0.85rem", color: "#64748B", marginTop: 4, lineHeight: 1.6 },
-  link: { color: "#D42626", fontWeight: 600, textDecoration: "none" },
-  muted: { color: "#64748B", fontSize: "0.88rem", textAlign: "center", padding: 20 },
+  h1: { fontSize: "1.45rem", fontWeight: 800, color: "#1F2937", letterSpacing: "-0.02em" },
+  batch: { fontSize: "0.75rem", fontWeight: 700, color: "#DB3433", background: "#FEF2F2", padding: "3px 10px", borderRadius: 100, verticalAlign: "middle" },
+  h2: { fontSize: "1.02rem", fontWeight: 800, color: "#1F2937", marginBottom: 14 },
+  sub: { fontSize: "0.85rem", color: "#6B7280", marginTop: 4, lineHeight: 1.6 },
+  link: { color: "#DB3433", fontWeight: 600, textDecoration: "none" },
+  muted: { color: "#6B7280", fontSize: "0.88rem", textAlign: "center", padding: 20 },
   warn: { background: "#FFFBEB", border: "1px solid #FDE68A", color: "#92400E", borderRadius: 12, padding: "12px 16px", fontSize: "0.8rem", lineHeight: 1.6, marginBottom: 16 },
-  tabs: { display: "flex", gap: 6, marginBottom: 16, borderBottom: "1px solid #E2E8F0" },
-  tab: { ...btn, background: "none", border: "none", borderBottom: "2px solid transparent", borderRadius: 0, color: "#64748B", padding: "10px 14px", fontSize: "0.88rem" },
-  tabOn: { ...btn, background: "none", border: "none", borderBottom: "2px solid #D42626", borderRadius: 0, color: "#D42626", padding: "10px 14px", fontSize: "0.88rem", fontWeight: 700 },
-  panel: { background: "#FFFFFF", border: "1px solid #E2E8F0", borderRadius: 16, padding: 20, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" },
+  tabs: { display: "flex", gap: 6, marginBottom: 16, borderBottom: "1px solid #E5E7EB" },
+  tab: { ...btn, background: "none", border: "none", borderBottom: "2px solid transparent", borderRadius: 0, color: "#6B7280", padding: "10px 14px", fontSize: "0.88rem" },
+  tabOn: { ...btn, background: "none", border: "none", borderBottom: "2px solid #DB3433", borderRadius: 0, color: "#DB3433", padding: "10px 14px", fontSize: "0.88rem", fontWeight: 700 },
+  panel: { background: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: 16, padding: 20, boxShadow: "0 2px 10px rgba(0,0,0,0.04)" },
   row: { display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" },
-  input: { width: "100%", padding: "10px 12px", borderRadius: 9, border: "1.5px solid #E2E8F0", fontSize: "0.88rem", fontFamily: font, color: "#0F172A", background: "#F8F9FA" },
-  label: { display: "flex", flexDirection: "column", gap: 6, fontSize: "0.8rem", fontWeight: 700, color: "#0F172A" },
-  labelText: { fontSize: "0.8rem", fontWeight: 700, color: "#0F172A" },
-  hint: { fontWeight: 500, color: "#94A3B8", fontSize: "0.74rem" },
-  check: { display: "flex", alignItems: "center", gap: 6, fontSize: "0.83rem", color: "#0F172A", cursor: "pointer" },
-  primaryBtn: { ...btn, background: "#D42626", color: "#FFF", border: "none" },
-  ghostBtn: { ...btn, background: "#FFF", color: "#475569", border: "1.5px solid #E2E8F0" },
-  dangerBtn: { ...btn, background: "#FFF", color: "#B91C1C", border: "1.5px solid #FECACA" },
-  error: { color: "#D42626", fontSize: "0.8rem", fontWeight: 600, marginTop: 8 },
-  errorSmall: { color: "#D42626", fontSize: "0.75rem", fontWeight: 600 },
-  loginCard: { maxWidth: 400, margin: "80px auto", background: "#FFF", border: "1px solid #E2E8F0", borderRadius: 18, padding: "32px 26px", boxShadow: "0 8px 32px rgba(0,0,0,0.08)" },
+  input: { width: "100%", padding: "10px 12px", borderRadius: 9, border: "1.5px solid #E5E7EB", fontSize: "0.88rem", fontFamily: font, color: "#1F2937", background: "#FFFFFF" },
+  label: { display: "flex", flexDirection: "column", gap: 6, fontSize: "0.8rem", fontWeight: 700, color: "#1F2937" },
+  labelText: { fontSize: "0.8rem", fontWeight: 700, color: "#1F2937" },
+  hint: { fontWeight: 500, color: "#9CA3AF", fontSize: "0.74rem" },
+  check: { display: "flex", alignItems: "center", gap: 6, fontSize: "0.83rem", color: "#1F2937", cursor: "pointer" },
+  primaryBtn: { ...btn, background: "#DB3433", color: "#FFF", border: "none" },
+  ghostBtn: { ...btn, background: "#FFF", color: "#4B5563", border: "1.5px solid #E5E7EB" },
+  dangerBtn: { ...btn, background: "#FFF", color: "#C0292A", border: "1.5px solid #FECACA" },
+  error: { color: "#DB3433", fontSize: "0.8rem", fontWeight: 600, marginTop: 8 },
+  errorSmall: { color: "#DB3433", fontSize: "0.75rem", fontWeight: 600 },
+  loginCard: { maxWidth: 400, margin: "80px auto", background: "#FFF", border: "1px solid #E5E7EB", borderRadius: 18, padding: "32px 26px", boxShadow: "0 8px 32px rgba(0,0,0,0.08)" },
 
-  folder: { border: "1px solid #E2E8F0", borderRadius: 12, overflow: "hidden" },
-  folderHead: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 14px", background: "#FAFAFA", flexWrap: "wrap" },
+  folder: { border: "1px solid #E5E7EB", borderRadius: 12, overflow: "hidden" },
+  folderHead: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "12px 14px", background: "#FFFFFF", flexWrap: "wrap" },
   folderToggle: { display: "flex", alignItems: "center", gap: 10, background: "none", border: "none", cursor: "pointer", fontFamily: font, textAlign: "left", minWidth: 0, flex: 1 },
-  chev: { fontSize: "0.65rem", color: "#94A3B8", transition: "transform 0.15s" },
-  folderName: { fontWeight: 700, color: "#0F172A", fontSize: "0.92rem", overflowWrap: "anywhere" },
-  count: { fontSize: "0.72rem", color: "#64748B", background: "#F1F5F9", padding: "2px 8px", borderRadius: 100, whiteSpace: "nowrap" },
-  folderBody: { padding: 14, borderTop: "1px solid #E2E8F0" },
-  drop: { display: "block", border: "2px dashed #E2E8F0", borderRadius: 12, padding: "22px 16px", textAlign: "center", fontSize: "0.82rem", color: "#64748B", cursor: "pointer", background: "#FCFCFD" },
+  chev: { fontSize: "0.65rem", color: "#9CA3AF", transition: "transform 0.15s" },
+  folderName: { fontWeight: 700, color: "#1F2937", fontSize: "0.92rem", overflowWrap: "anywhere" },
+  count: { fontSize: "0.72rem", color: "#6B7280", background: "#F3F4F6", padding: "2px 8px", borderRadius: 100, whiteSpace: "nowrap" },
+  folderBody: { padding: 14, borderTop: "1px solid #E5E7EB" },
+  drop: { display: "block", border: "2px dashed #E5E7EB", borderRadius: 12, padding: "22px 16px", textAlign: "center", fontSize: "0.82rem", color: "#6B7280", cursor: "pointer", background: "#FCFCFD" },
   uploadRow: { display: "flex", alignItems: "center", gap: 12, padding: "6px 0", fontSize: "0.78rem" },
-  uploadName: { flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#0F172A" },
-  bar: { width: 140, height: 6, background: "#F1F5F9", borderRadius: 100, overflow: "hidden", flexShrink: 0 },
-  barFill: { height: "100%", background: "#D42626", transition: "width 0.2s" },
-  fileRow: { display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderTop: "1px solid #F1F5F9" },
-  fileName: { fontWeight: 600, color: "#0F172A", fontSize: "0.85rem", overflowWrap: "anywhere" },
-  fileMeta: { color: "#94A3B8", fontSize: "0.74rem", marginTop: 3, lineHeight: 1.5 },
+  uploadName: { flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#1F2937" },
+  bar: { width: 140, height: 6, background: "#F3F4F6", borderRadius: 100, overflow: "hidden", flexShrink: 0 },
+  barFill: { height: "100%", background: "#DB3433", transition: "width 0.2s" },
+  fileRow: { display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderTop: "1px solid #F3F4F6" },
+  fileName: { fontWeight: 600, color: "#1F2937", fontSize: "0.85rem", overflowWrap: "anywhere" },
+  fileMeta: { color: "#9CA3AF", fontSize: "0.74rem", marginTop: 3, lineHeight: 1.5 },
 
-  chip: { ...btn, background: "#FFF", color: "#475569", border: "1.5px solid #E2E8F0", fontWeight: 500 },
-  chipOn: { ...btn, background: "#FEF2F2", color: "#D42626", border: "1.5px solid #D42626" },
-  couponRow: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "14px 10px", borderTop: "1px solid #F1F5F9", flexWrap: "wrap", borderRadius: 8 },
-  code: { fontWeight: 800, color: "#0F172A", letterSpacing: "0.05em", fontSize: "0.92rem" },
+  chip: { ...btn, background: "#FFF", color: "#4B5563", border: "1.5px solid #E5E7EB", fontWeight: 500 },
+  chipOn: { ...btn, background: "#FEF2F2", color: "#DB3433", border: "1.5px solid #DB3433" },
+  couponRow: { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "14px 10px", borderTop: "1px solid #F3F4F6", flexWrap: "wrap", borderRadius: 8 },
+  code: { fontWeight: 800, color: "#1F2937", letterSpacing: "0.05em", fontSize: "0.92rem" },
   status: { fontSize: "0.68rem", fontWeight: 700, padding: "2px 9px", borderRadius: 100, textTransform: "uppercase", letterSpacing: "0.04em" },
   flash: { position: "fixed", bottom: 20, left: "50%", transform: "translateX(-50%)", color: "#FFF", padding: "11px 18px", borderRadius: 10, fontSize: "0.85rem", fontWeight: 600, boxShadow: "0 8px 24px rgba(0,0,0,0.2)", zIndex: 50, maxWidth: "calc(100% - 32px)" },
 };

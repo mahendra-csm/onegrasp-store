@@ -1,5 +1,5 @@
 import { requireAdmin } from "../../../lib/auth";
-import { deleteStoredFiles, newId, updateDb } from "../../../lib/storage";
+import { deleteStoredFiles, newId, updateDb, errorMessage } from "../../../lib/storage";
 
 const cleanName = (n) => String(n || "").trim().slice(0, 120);
 
@@ -45,6 +45,6 @@ export default async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
   } catch (e) {
     console.error("Folders API error:", e);
-    res.status(500).json({ error: "Something went wrong" });
+    res.status(500).json({ error: errorMessage(e) });
   }
 }

@@ -16,7 +16,6 @@ const PRODUCTS_DATA = {
     price: 1,
     pages: "40+",
     topicsCount: 12,
-    gradient: "linear-gradient(135deg, #1e3a5f 0%, #D42626 100%)",
     whatInside: [
       { title: "Introduction to Academic Research", desc: "Understand what research is, types of research, and how to approach it systematically." },
       { title: "Choosing the Right Research Topic", desc: "Framework for selecting a focused, relevant, and feasible research topic." },
@@ -40,7 +39,6 @@ const PRODUCTS_DATA = {
     price: 1,
     pages: "30+",
     topicsCount: 100,
-    gradient: "linear-gradient(135deg, #1a1a2e 0%, #8B1A1A 100%)",
     whatInside: [
       { title: "Computer Science & Artificial Intelligence", desc: "Machine learning, deep learning, NLP, cybersecurity, cloud computing, and emerging tech topics." },
       { title: "Medical & Health Sciences", desc: "Clinical research, public health, biotechnology, mental health, and medical innovation topics." },
@@ -63,7 +61,6 @@ const PRODUCTS_DATA = {
     description:
       "A practical playbook for turning your knowledge into digital products — from idea validation and creation to pricing, launch and selling online. Built for students, researchers and educators who want to create an independent income stream.",
     price: 1999,
-    gradient: "linear-gradient(135deg, #312E81 0%, #D42626 100%)",
     whatInside: [
       { title: "Finding Your Product Idea", desc: "Identify what you know that others will pay for, and pick the right product format." },
       { title: "Validating Demand", desc: "Test your idea with real people before investing time in building it." },
@@ -84,7 +81,6 @@ const PRODUCTS_DATA = {
     description:
       "Budgeting, saving, investing, credit and taxes explained simply. Build the money habits and confidence to make smart financial decisions early — with examples relevant to students and young professionals in India.",
     price: 599,
-    gradient: "linear-gradient(135deg, #064E3B 0%, #8B1A1A 100%)",
     whatInside: [
       { title: "Budgeting Basics", desc: "Track income and expenses and build a budget you can actually stick to." },
       { title: "Saving & Emergency Funds", desc: "How much to save, where to keep it, and why an emergency fund comes first." },
@@ -105,7 +101,6 @@ const PRODUCTS_DATA = {
     description:
       "Learn how to identify commercial potential in your research, validate the market, protect your ideas, and take the first steps toward building a startup — a structured path from lab or library to launch.",
     price: 799,
-    gradient: "linear-gradient(135deg, #1e3a5f 0%, #B45309 100%)",
     whatInside: [
       { title: "Research Commercialisation", desc: "Spot the problems your research solves and who would pay for the solution." },
       { title: "Market Validation", desc: "Customer discovery, competitor analysis and product–market fit." },
@@ -180,7 +175,7 @@ export default function ProductPage() {
         description: product.name,
         order_id: orderData.orderId,
         prefill: { email },
-        theme: { color: "#D42626" },
+        theme: { color: "#DB3433" },
         handler: async function (response) {
           try {
             const verifyRes = await fetch("/api/verify-payment", {
@@ -218,7 +213,7 @@ export default function ProductPage() {
       <>
         <Navbar />
         <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <p style={{ fontFamily: "'Poppins', sans-serif", color: "#64748B" }}>Loading…</p>
+          <p style={{ fontFamily: "'Poppins', sans-serif", color: "#6B7280" }}>Loading…</p>
         </div>
         <Footer />
       </>
@@ -239,26 +234,6 @@ export default function ProductPage() {
       <Navbar />
 
       <main style={s.main}>
-        {/* ── Video Hero Banner ── */}
-        <section style={s.videoHero}>
-          <div style={s.videoBg}>
-            <iframe
-              src="https://www.youtube.com/embed/VkBnNxneA_A?autoplay=1&mute=1&loop=1&playlist=VkBnNxneA_A&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&disablekb=1&playsinline=1"
-              style={s.videoIframe}
-              allow="autoplay; encrypted-media"
-              title="Product background video"
-              frameBorder="0"
-            />
-          </div>
-          <div style={s.videoOverlay} />
-          <div style={{ position: "absolute", inset: 0, background: product.gradient, opacity: 0.6, zIndex: 2 }} />
-          <div style={s.videoHeroContent}>
-            <span style={s.videoHeroBadge}>{product.badge}</span>
-            <h1 style={s.videoHeroTitle}>{product.name}</h1>
-            <p style={s.videoHeroTagline}>{product.tagline}</p>
-          </div>
-        </section>
-
         {/* Breadcrumb */}
         <div style={s.breadBar}>
           <div style={s.breadInner}>
@@ -278,7 +253,7 @@ export default function ProductPage() {
             <div className="og-left-col">
               {/* Hero card */}
               <div style={s.heroCard}>
-                <div style={{ ...s.heroBanner, background: product.gradient }}>
+                <div style={s.heroBanner}>
                   <span style={s.heroBadge}>{product.badge}</span>
                   <div style={s.heroBannerBody}>
                     <span style={s.heroCatTag}>{product.category}</span>
@@ -333,7 +308,7 @@ export default function ProductPage() {
                 <div className="og-who-grid">
                   {product.whoFor.map((who) => (
                     <div key={who} style={s.whoCard}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D42626" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/>
                       </svg>
                       <span style={s.whoLabel}>{who}</span>
@@ -348,7 +323,7 @@ export default function ProductPage() {
                 <div style={s.highlightsList}>
                   {product.highlights.map((h) => (
                     <div key={h} style={s.highlightItem}>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4ade80" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12"/>
                       </svg>
                       <span style={s.highlightText}>{h}</span>
@@ -418,7 +393,7 @@ export default function ProductPage() {
                   <div style={s.trustList}>
                     {["Secure Razorpay Payment", "Instant PDF Delivery", "No Hidden Charges"].map((t) => (
                       <div key={t} style={s.trustItem}>
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                         <span>{t}</span>
                       </div>
                     ))}
@@ -456,243 +431,162 @@ export default function ProductPage() {
 }
 
 const s = {
-  main: { background: "#F8F9FA", minHeight: "100vh", overflow: "hidden" },
-
-  /* Video Hero Banner */
-  videoHero: {
-    position: "relative",
-    height: "300px",
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  videoBg: {
-    position: "absolute",
-    top: 0, left: 0, right: 0, bottom: 0,
-    overflow: "hidden",
-    zIndex: 0,
-  },
-  videoIframe: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    width: "177.78vh",
-    height: "56.25vw",
-    minWidth: "100%",
-    minHeight: "100%",
-    transform: "translate(-50%, -50%)",
-    border: "none",
-    pointerEvents: "none",
-  },
-  videoOverlay: {
-    position: "absolute",
-    inset: 0,
-    background: "rgba(5, 10, 25, 0.65)",
-    zIndex: 1,
-  },
-  videoHeroContent: {
-    position: "relative",
-    zIndex: 3,
-    textAlign: "center",
-    padding: "0 20px",
-    maxWidth: "700px",
-  },
-  videoHeroBadge: {
-    display: "inline-block",
-    background: "rgba(255,255,255,0.15)",
-    color: "#FFFFFF",
-    border: "1px solid rgba(255,255,255,0.3)",
-    padding: "4px 14px",
-    borderRadius: "100px",
-    fontSize: "0.7rem",
-    fontWeight: 700,
-    fontFamily: "'Poppins', sans-serif",
-    marginBottom: "12px",
-    textTransform: "uppercase",
-    letterSpacing: "0.06em",
-    backdropFilter: "blur(6px)",
-  },
-  videoHeroTitle: {
-    fontSize: "clamp(1.4rem, 3vw, 2rem)",
-    fontWeight: 800,
-    color: "#FFFFFF",
-    fontFamily: "'Poppins', sans-serif",
-    letterSpacing: "-0.03em",
-    marginBottom: "10px",
-    textShadow: "0 2px 12px rgba(0,0,0,0.4)",
-    lineHeight: 1.2,
-  },
-  videoHeroTagline: {
-    fontSize: "0.9rem",
-    color: "rgba(255,255,255,0.82)",
-    fontFamily: "'Poppins', sans-serif",
-    lineHeight: 1.6,
-    textShadow: "0 1px 6px rgba(0,0,0,0.3)",
-  },
+  main: { background: "#FFFFFF", minHeight: "100vh", overflow: "hidden" },
 
   /* Breadcrumb */
-  breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E2E8F0" },
+  breadBar: { background: "#FFFFFF", borderBottom: "1px solid #E5E7EB" },
   breadInner: {
     maxWidth: "1200px", margin: "0 auto", padding: "12px 20px",
     display: "flex", alignItems: "center", gap: "8px",
     fontFamily: "'Poppins', sans-serif", fontSize: "0.8rem", flexWrap: "wrap",
   },
-  breadLink: { color: "#64748B", textDecoration: "none", fontWeight: 500 },
-  breadSep: { color: "#CBD5E1" },
-  breadCurrent: { color: "#0F172A", fontWeight: 600, maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
+  breadLink: { color: "#6B7280", textDecoration: "none", fontWeight: 500 },
+  breadSep: { color: "#D1D5DB" },
+  breadCurrent: { color: "#1F2937", fontWeight: 600, maxWidth: "200px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" },
 
-  pageWrap: { maxWidth: "1200px", margin: "0 auto", padding: "32px 20px 80px", width: "100%" },
+  pageWrap: { maxWidth: "1200px", margin: "0 auto", padding: "24px 20px 40px", width: "100%" },
 
   /* Hero card */
   heroCard: {
-    background: "#FFFFFF", borderRadius: "18px",
-    border: "1px solid #E2E8F0", overflow: "hidden",
-    boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
+    background: "#FFFFFF", borderRadius: "14px",
+    border: "1px solid #E5E7EB", overflow: "hidden",
   },
   heroBanner: {
-    minHeight: "180px", position: "relative",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    padding: "28px 20px", overflow: "hidden",
+    position: "relative", padding: "24px 24px 0",
   },
   heroBadge: {
-    position: "absolute", top: "14px", right: "14px",
-    background: "rgba(255,255,255,0.2)", color: "#FFFFFF",
-    border: "1px solid rgba(255,255,255,0.3)", padding: "4px 12px",
-    borderRadius: "100px", fontSize: "0.68rem", fontWeight: 700,
+    position: "absolute", top: "20px", right: "20px",
+    color: "#6B7280", border: "1px solid #E5E7EB", padding: "3px 10px",
+    borderRadius: "100px", fontSize: "0.66rem", fontWeight: 700,
     fontFamily: "'Poppins', sans-serif", textTransform: "uppercase", letterSpacing: "0.05em",
   },
-  heroBannerBody: { textAlign: "center" },
+  heroBannerBody: { paddingRight: "110px" },
   heroCatTag: {
-    display: "inline-block", background: "rgba(255,255,255,0.18)",
-    color: "rgba(255,255,255,0.9)", padding: "3px 12px", borderRadius: "100px",
-    fontSize: "0.68rem", fontWeight: 700, fontFamily: "'Poppins', sans-serif",
-    marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.05em",
-    border: "1px solid rgba(255,255,255,0.25)",
+    display: "block", color: "#DB3433",
+    fontSize: "0.7rem", fontWeight: 700, fontFamily: "'Poppins', sans-serif",
+    marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.05em",
   },
   heroName: {
-    fontSize: "1.5rem", fontWeight: 800, color: "#FFFFFF",
-    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.03em",
-    marginBottom: "8px", textShadow: "0 2px 8px rgba(0,0,0,0.25)",
-    lineHeight: 1.25,
+    fontSize: "1.6rem", fontWeight: 800, color: "#1F2937",
+    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.02em",
+    marginBottom: "6px", lineHeight: 1.25,
   },
-  heroTagline: { fontSize: "0.85rem", color: "rgba(255,255,255,0.8)", fontFamily: "'Poppins', sans-serif" },
-  heroCardBody: { padding: "24px" },
+  heroTagline: { fontSize: "0.9rem", color: "#4B5563", fontWeight: 600, fontFamily: "'Poppins', sans-serif" },
+  heroCardBody: { padding: "16px 24px 24px" },
   heroDesc: {
-    fontSize: "0.9rem", color: "#475569", fontFamily: "'Poppins', sans-serif",
+    fontSize: "0.9rem", color: "#4B5563", fontFamily: "'Poppins', sans-serif",
     lineHeight: 1.75, marginBottom: "20px",
   },
 
   /* Meta row */
   metaItem: { flex: 1, padding: "14px 10px", display: "flex", alignItems: "center", gap: "8px" },
   metaIcon: { fontSize: "1.1rem" },
-  metaVal: { fontSize: "0.95rem", fontWeight: 800, color: "#0F172A", fontFamily: "'Poppins', sans-serif", lineHeight: 1.2 },
-  metaLbl: { fontSize: "0.68rem", color: "#94A3B8", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
+  metaVal: { fontSize: "0.95rem", fontWeight: 800, color: "#1F2937", fontFamily: "'Poppins', sans-serif", lineHeight: 1.2 },
+  metaLbl: { fontSize: "0.68rem", color: "#9CA3AF", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
 
   /* Blocks */
   block: {
-    background: "#FFFFFF", borderRadius: "18px", border: "1px solid #E2E8F0",
-    padding: "28px 24px", boxShadow: "0 2px 10px rgba(0,0,0,0.04)",
+    background: "#FFFFFF", borderRadius: "14px", border: "1px solid #E5E7EB",
+    padding: "22px 24px",
   },
   blockTitle: {
-    fontSize: "1.2rem", fontWeight: 800, color: "#0F172A",
-    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.02em", marginBottom: "20px",
+    fontSize: "1.1rem", fontWeight: 800, color: "#1F2937",
+    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.02em", marginBottom: "14px",
   },
-  red: { color: "#D42626" },
+  red: { color: "#DB3433" },
 
   insideCard: {
     display: "flex", gap: "14px", alignItems: "flex-start",
-    padding: "14px", background: "#F8F9FA", borderRadius: "10px", border: "1px solid #F1F5F9",
+    padding: "14px", background: "#FFFFFF", borderRadius: "10px", border: "1px solid #F3F4F6",
   },
   insideNum: {
-    fontSize: "1rem", fontWeight: 800, color: "#D42626",
+    fontSize: "1rem", fontWeight: 800, color: "#DB3433",
     fontFamily: "'Poppins', sans-serif", flexShrink: 0, opacity: 0.45, minWidth: "28px",
   },
-  insideTitle: { fontSize: "0.87rem", fontWeight: 700, color: "#0F172A", fontFamily: "'Poppins', sans-serif", marginBottom: "4px" },
-  insideDesc: { fontSize: "0.8rem", color: "#64748B", fontFamily: "'Poppins', sans-serif", lineHeight: 1.6 },
+  insideTitle: { fontSize: "0.87rem", fontWeight: 700, color: "#1F2937", fontFamily: "'Poppins', sans-serif", marginBottom: "4px" },
+  insideDesc: { fontSize: "0.8rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", lineHeight: 1.6 },
 
   whoCard: {
     display: "flex", alignItems: "center", gap: "8px",
     background: "#FEF2F2", border: "1px solid #FECACA",
     borderRadius: "10px", padding: "10px 14px",
   },
-  whoLabel: { fontSize: "0.82rem", fontWeight: 600, color: "#0F172A", fontFamily: "'Poppins', sans-serif" },
+  whoLabel: { fontSize: "0.82rem", fontWeight: 600, color: "#1F2937", fontFamily: "'Poppins', sans-serif" },
 
   highlightsBox: {
-    background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
-    borderRadius: "18px", padding: "28px 24px",
+    background: "#FFFFFF", border: "1px solid #E5E7EB",
+    borderRadius: "14px", padding: "22px 24px",
   },
   highlightsTitle: {
-    fontSize: "0.95rem", fontWeight: 700, color: "#F1F5F9",
-    fontFamily: "'Poppins', sans-serif", marginBottom: "18px",
+    fontSize: "1.1rem", fontWeight: 800, color: "#1F2937",
+    fontFamily: "'Poppins', sans-serif", marginBottom: "14px",
   },
-  highlightsList: { display: "flex", flexDirection: "column", gap: "12px" },
+  highlightsList: { display: "flex", flexDirection: "column", gap: "10px" },
   highlightItem: { display: "flex", alignItems: "center", gap: "10px" },
-  highlightText: { fontSize: "0.85rem", color: "#94A3B8", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
+  highlightText: { fontSize: "0.85rem", color: "#4B5563", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
 
   /* Buy card */
   buyCard: {
-    background: "#FFFFFF", borderRadius: "18px",
-    border: "1px solid #E2E8F0", boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+    background: "#FFFFFF", borderRadius: "14px",
+    border: "1px solid #E5E7EB", boxShadow: "0 4px 16px rgba(0,0,0,0.06)",
     overflow: "hidden", marginBottom: "16px",
   },
   buyTop: {
-    background: "linear-gradient(135deg, #0F172A 0%, #1E293B 100%)",
-    padding: "24px 24px 20px",
+    padding: "22px 24px 16px", borderBottom: "1px solid #E5E7EB",
   },
   priceRow: { display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "4px" },
-  priceOnly: { fontSize: "0.82rem", color: "#94A3B8", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
+  priceOnly: { fontSize: "0.82rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", fontWeight: 500 },
   priceAmt: {
-    fontSize: "2.8rem", fontWeight: 900, color: "#FFFFFF",
-    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.05em", lineHeight: 1,
+    fontSize: "2.4rem", fontWeight: 900, color: "#1F2937",
+    fontFamily: "'Poppins', sans-serif", letterSpacing: "-0.04em", lineHeight: 1,
   },
-  priceNote: { fontSize: "0.75rem", color: "#475569", fontFamily: "'Poppins', sans-serif" },
+  priceNote: { fontSize: "0.75rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif" },
 
   buyBody: { padding: "22px 24px" },
   volumeNote: {
-    background: "#FFFBEB", border: "1px solid #FDE68A", color: "#92400E",
+    background: "#F9FAFB", border: "1px solid #E5E7EB", color: "#4B5563",
     borderRadius: "10px", padding: "12px 14px", fontSize: "0.8rem", lineHeight: 1.6,
     fontFamily: "'Poppins', sans-serif", marginBottom: "16px",
   },
   emailLabel: {
     display: "block", fontSize: "0.8rem", fontWeight: 700,
-    color: "#0F172A", fontFamily: "'Poppins', sans-serif", marginBottom: "8px",
+    color: "#1F2937", fontFamily: "'Poppins', sans-serif", marginBottom: "8px",
   },
   emailInput: {
     width: "100%", padding: "11px 14px", borderRadius: "9px",
-    border: "1.5px solid #E2E8F0", fontSize: "0.88rem",
-    fontFamily: "'Poppins', sans-serif", color: "#0F172A",
-    background: "#F8F9FA", boxSizing: "border-box", marginBottom: "6px",
+    border: "1.5px solid #E5E7EB", fontSize: "0.88rem",
+    fontFamily: "'Poppins', sans-serif", color: "#1F2937",
+    background: "#FFFFFF", boxSizing: "border-box", marginBottom: "6px",
   },
-  emailError: { color: "#D42626", fontSize: "0.75rem", fontWeight: 600, fontFamily: "'Poppins', sans-serif", marginBottom: "6px" },
-  emailHint: { fontSize: "0.72rem", color: "#94A3B8", fontFamily: "'Poppins', sans-serif", marginBottom: "18px" },
+  emailError: { color: "#DB3433", fontSize: "0.75rem", fontWeight: 600, fontFamily: "'Poppins', sans-serif", marginBottom: "6px" },
+  emailHint: { fontSize: "0.72rem", color: "#9CA3AF", fontFamily: "'Poppins', sans-serif", marginBottom: "18px" },
 
   trustList: { display: "flex", flexDirection: "column", gap: "8px" },
   trustItem: {
     display: "flex", alignItems: "center", gap: "7px",
-    fontSize: "0.75rem", color: "#64748B", fontFamily: "'Poppins', sans-serif", fontWeight: 500,
+    fontSize: "0.75rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", fontWeight: 500,
   },
 
   buySupport: {
-    padding: "14px 24px", background: "#F8F9FA", borderTop: "1px solid #F1F5F9",
+    padding: "14px 24px", background: "#FFFFFF", borderTop: "1px solid #F3F4F6",
   },
-  supportText: { fontSize: "0.75rem", color: "#64748B", fontFamily: "'Poppins', sans-serif", lineHeight: 1.6 },
-  supportLink: { color: "#D42626", textDecoration: "none", fontWeight: 600 },
+  supportText: { fontSize: "0.75rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", lineHeight: 1.6 },
+  supportLink: { color: "#DB3433", textDecoration: "none", fontWeight: 600 },
 
   alsoCard: {
-    background: "#FFFFFF", border: "1px solid #E2E8F0",
+    background: "#FFFFFF", border: "1px solid #E5E7EB",
     borderRadius: "14px", padding: "18px 20px",
   },
   alsoLabel: {
-    fontSize: "0.68rem", color: "#94A3B8", fontWeight: 700,
+    fontSize: "0.68rem", color: "#9CA3AF", fontWeight: 700,
     fontFamily: "'Poppins', sans-serif", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "6px",
   },
   alsoName: {
-    fontSize: "0.85rem", fontWeight: 700, color: "#0F172A",
+    fontSize: "0.85rem", fontWeight: 700, color: "#1F2937",
     fontFamily: "'Poppins', sans-serif", marginBottom: "10px", lineHeight: 1.4,
   },
   alsoBtn: {
-    display: "inline-flex", alignItems: "center", color: "#D42626",
+    display: "inline-flex", alignItems: "center", color: "#DB3433",
     textDecoration: "none", fontSize: "0.8rem", fontWeight: 700,
     fontFamily: "'Poppins', sans-serif",
   },

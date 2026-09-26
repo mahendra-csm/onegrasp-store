@@ -13,13 +13,19 @@ export default async function handler(req, res) {
   const code = normalizeCode(req.body?.code);
   if (!code) return res.status(400).json({ error: "Please enter a coupon code." });
 
-  const result = await updateDb((db) => {
-    const c = db.coupons.find((x) => x.code === code);
-    if (!couponUsable(c)) return { error: "Invalid or expired coupon code." };
-    if (c.maxUses != null && c.uses >= c.maxUses) return { error: "This coupon has reached its usage limit." };
-    c.uses += 1;
-    return { coupon: c };
-  });
+  let result;
+  try {
+    result = await updateDb((db) => {
+      const c = db.coupons.find((x) => x.code === code);
+      if (!couponUsable(c)) return { error: "Invalid or expired coupon code." };
+      if (c.maxUses != null && c.uses >= c.maxUses) return { error: "This coupon has reached its usage limit." };
+      c.uses += 1;
+      return { coupon: c };
+    });
+  } catch (e) {
+    console.error("Redeem error:", e);
+    return res.status(503).json({ error: "Materials are temporarily unavailable. Please contact support@onegrasp.com." });
+  }
 
   if (result.error) {
     await sleep(600);
