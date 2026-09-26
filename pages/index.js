@@ -11,6 +11,39 @@ const SKILLS = [
   "Data analysis", "Publishing", "Financial literacy", "Entrepreneurship", "Digital products",
 ];
 
+const TOOLKIT = [
+  {
+    href: "/research-writing", featured: true, tag: "Programme materials", chip: `${RW_BATCH} batch`,
+    name: "Research Writing",
+    desc: "The complete batch folder — session materials, templates, tests and guides. Unlock it with your batch coupon code.",
+  },
+  {
+    href: "/products/research-guide", tag: "Research skills", chip: "Bestseller", meta: "40+ pages · 12+ sections",
+    name: "Student Research Programme Guide",
+    desc: "Methodology, literature review, analysis, citations and academic writing — high school to PhD.",
+  },
+  {
+    href: "/products/research-topics", tag: "Research topics", chip: "Most popular", meta: "30+ pages · 100+ topics",
+    name: "Student Research Topics",
+    desc: "Trending, publishable topics across CS, medicine, business, environment and more.",
+  },
+  {
+    href: "/products/researcher-to-entrepreneur", tag: "Entrepreneurship", chip: "Masterclass", meta: "Validation · IP · Funding · Pitching",
+    name: "Researcher to Entrepreneur Mastery",
+    desc: "Take your research from the lab to the market and build your first venture.",
+  },
+  {
+    href: "/products/digital-product", tag: "Creator economy", chip: "Premium", meta: "Idea · Pricing · Launch",
+    name: "Digital Product",
+    desc: "Turn your expertise into digital products that sell — from idea to launch.",
+  },
+  {
+    href: "/products/financial-literacy", tag: "Personal finance", chip: "Essential", meta: "Budgeting · Saving · Investing",
+    name: "Financial Literacy",
+    desc: "The money basics every student and young researcher should know.",
+  },
+];
+
 const TRUST = [
   { title: "Instant downloads", desc: "Unlock programme materials with your coupon code." },
   { title: "Verified access", desc: "Resources shared only with authenticated emails." },
@@ -172,99 +205,40 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── Toolkit bento ── */}
+        {/* ── Toolkit ── */}
         <section className="og2-section" id="products">
           <header className="og2-head" data-reveal>
             <div>
               <span className="og2-kicker">The toolkit — 06</span>
-              <h2 className="og2-h2">Six resources.<br /><em>One</em> unfair advantage.</h2>
+              <h2 className="og2-h2">Six resources. <span className="og2-h2-soft">One unfair advantage.</span></h2>
             </div>
             <p>Handpicked guides, programme materials and masterclasses — built by researchers, priced for students.</p>
           </header>
 
-          <div className="og2-bento">
-            <div className="og2-b-rw" data-reveal>
-              <Tile href="/research-writing" className="og2-t-dark">
-                <div className="og2-tile-top">
-                  <span className="og2-tag">Programme materials</span>
-                  <span className="og2-chip">{RW_BATCH} batch</span>
-                </div>
-                <h3 className="og2-t-title-xl">Research<br /><em>Writing</em></h3>
-                <p>The complete batch folder — session materials, templates and guides. Unlock it with the coupon code shared with your batch.</p>
-                <div className="og2-code" aria-hidden="true">
-                  <Lock />
-                  <span className="og2-code-text">{typed}</span>
-                  <span className="og2-caret" />
-                </div>
-                <div className="og2-steps">
-                  <span>01 Enter code</span><span>02 Unlock folders</span><span>03 Download</span>
-                </div>
-                <div className="og2-tile-foot">
-                  <span className="og2-price">Coupon access</span>
-                  <Arrow />
-                </div>
-              </Tile>
-            </div>
-
-            <div className="og2-b-guide" data-reveal style={{ transitionDelay: "0.08s" }}>
-              <Tile href="/products/research-guide">
-                <div className="og2-tile-top">
-                  <span className="og2-tag">Research skills</span>
-                  <span className="og2-chip">Bestseller</span>
-                </div>
-                <div className="og2-tile-body">
-                  <div>
-                    <h3>Student Research Programme Guide</h3>
-                    <p>Methodology, literature review, analysis, citations and academic writing — high school to PhD.</p>
-                  </div>
-                  <div className="og2-fig">40+<small>pages</small></div>
-                </div>
-                <div className="og2-tile-foot">
-                  <span className="og2-price">₹999<small>on request</small></span>
-                  <Arrow />
-                </div>
-              </Tile>
-            </div>
-
-            <div className="og2-b-topics" data-reveal style={{ transitionDelay: "0.16s" }}>
-              <Tile href="/products/research-topics">
-                <div className="og2-tile-top">
-                  <span className="og2-tag">Research topics</span>
-                  <span className="og2-chip">Most popular</span>
-                </div>
-                <div className="og2-tile-body">
-                  <div>
-                    <h3>Student Research Topics</h3>
-                    <p>Trending, publishable topics across CS, medicine, business, environment and more.</p>
-                  </div>
-                  <div className="og2-fig">100+<small>topics</small></div>
-                </div>
-                <div className="og2-tile-foot">
-                  <span className="og2-price">₹999<small>on request</small></span>
-                  <Arrow />
-                </div>
-              </Tile>
-            </div>
-
-            {[
-              { id: "digital-product", cls: "og2-b-dp", tag: "Creator economy", name: "Digital Product", desc: "Turn your knowledge into products that sell.", price: "₹999" },
-              { id: "financial-literacy", cls: "og2-b-fl", tag: "Personal finance", name: "Financial Literacy", desc: "Money basics every student should know.", price: "₹999" },
-              { id: "researcher-to-entrepreneur", cls: "og2-b-rte", tag: "Entrepreneurship", name: "Researcher to Entrepreneur Mastery", desc: "Take your research from the lab to the market — validation, IP, funding and pitching.", price: "₹999" },
-            ].map((p, i) => (
-              <div key={p.id} className={p.cls} data-reveal style={{ transitionDelay: `${0.08 * (i + 1)}s` }}>
-                <Tile href={`/products/${p.id}`}>
+          <div className="og2-grid">
+            {TOOLKIT.map((p, i) => (
+              <div key={p.href} data-reveal style={{ transitionDelay: `${0.06 * i}s` }}>
+                <Tile href={p.href} className={p.featured ? "og2-t-dark" : ""}>
                   <div className="og2-tile-top">
-                    <span className="og2-tag">{p.tag}</span>
-                    <span className="og2-chip og2-chip-lock"><Lock /> On request</span>
+                    <span className="og2-index">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="og2-chip">{p.chip}</span>
                   </div>
-                  <div className="og2-tile-body">
-                    <div>
-                      <h3>{p.name}</h3>
-                      <p>{p.desc}</p>
+                  <span className="og2-tag">{p.tag}</span>
+                  <h3>{p.name}</h3>
+                  <p>{p.desc}</p>
+                  {p.featured ? (
+                    <div className="og2-code" aria-hidden="true">
+                      <Lock />
+                      <span className="og2-code-text">{typed}</span>
+                      <span className="og2-caret" />
                     </div>
-                  </div>
+                  ) : (
+                    <span className="og2-meta">{p.meta}</span>
+                  )}
                   <div className="og2-tile-foot">
-                    <span className="og2-price">{p.price}<small>one-time</small></span>
+                    {p.featured
+                      ? <span className="og2-price">Coupon access</span>
+                      : <span className="og2-price">₹999<small>on request</small></span>}
                     <Arrow />
                   </div>
                 </Tile>
