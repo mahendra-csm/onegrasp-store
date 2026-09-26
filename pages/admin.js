@@ -217,7 +217,7 @@ function Materials({ state, refresh, notify }) {
   }
 
   async function deleteFolder(f, count) {
-    if (!confirm(`Delete folder "${f.name}"${count ? ` and its ${count} file(s)` : ""}? This cannot be undone.`)) return;
+    if (!confirm(`Delete folder "${f.name}"${count ? ` and its ${count} item(s)` : ""}? This cannot be undone.`)) return;
     try {
       await api(`/api/admin/folders?id=${f.id}`, "DELETE");
       if (openId === f.id) setOpenId(null);
@@ -276,6 +276,7 @@ function Materials({ state, refresh, notify }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 20 }}>
         {state.folders.map((f) => {
           const files = state.files.filter((x) => x.folderId === f.id);
+          const links = (state.links || []).filter((x) => x.folderId === f.id);
           const open = openId === f.id;
           return (
             <div key={f.id} style={s.folder}>
@@ -291,11 +292,14 @@ function Materials({ state, refresh, notify }) {
                     <button onClick={() => setOpenId(open ? null : f.id)} style={s.folderToggle}>
                       <span style={{ ...s.chev, transform: open ? "rotate(90deg)" : "none" }}>▶</span>
                       <span style={s.folderName}>{f.name}</span>
-                      <span style={s.count}>{files.length} file{files.length === 1 ? "" : "s"}</span>
+                      <span style={s.count}>
+                        {files.length} file{files.length === 1 ? "" : "s"}
+                        {links.length > 0 && ` · ${links.length} link${links.length === 1 ? "" : "s"}`}
+                      </span>
                     </button>
                     <div style={s.row}>
                       <button onClick={() => setRenaming({ id: f.id, name: f.name })} style={s.ghostBtn}>Rename</button>
-                      <button onClick={() => deleteFolder(f, files.length)} style={s.dangerBtn}>Delete</button>
+                      <button onClick={() => deleteFolder(f, files.length + links.length)} style={s.dangerBtn}>Delete</button>
                     </div>
                   </>
                 )}
@@ -338,12 +342,74 @@ function Materials({ state, refresh, notify }) {
                       ))}
                     </div>
                   )}
+
+                  <FolderLinks folderId={f.id} links={links} refresh={refresh} notify={notify} />
                 </div>
               )}
             </div>
           );
         })}
       </div>
+    </div>
+  );
+}
+
+function FolderLinks({ folderId, links, refresh, notify }) {
+  const [form, setForm] = useState({ title: "", url: "" });
+  const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  async function save(e) {
+    e.preventDefault();
+    if (!form.title.trim() || !form.url.trim()) { setError("Enter both a title and a link (https://…)."); return; }
+    setBusy(true);
+    setError("");
+    try {
+      if (editingId) await api("/api/admin/links", "PUT", { id: editingId, ...form });
+      else await api("/api/admin/links", "POST", { folderId, ...form });
+      notify(editingId ? "Link updated" : "Link added");
+      setForm({ title: "", url: "" });
+      setEditingId(null);
+      await refresh();
+    } catch (err) { setError(err.message); }
+    setBusy(false);
+  }
+
+  async function remove(l) {
+    if (!confirm(`Delete link "${l.title}"?`)) return;
+    try {
+      await api(`/api/admin/links?id=${l.id}`, "DELETE");
+      if (editingId === l.id) { setEditingId(null); setForm({ title: "", url: "" }); }
+      await refresh();
+      notify("Link deleted");
+    } catch (err) { notify(err.message, true); }
+  }
+
+  return (
+    <div style={s.linksBox}>
+      <div style={s.linksHead}>🔗 Links <span style={s.hint}>(tests, forms, videos, meeting links…)</span></div>
+
+      {links.map((l) => (
+        <div key={l.id} style={{ ...s.fileRow, background: editingId === l.id ? "#FEF2F2" : "transparent" }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={s.fileName}>{l.title}</div>
+            <a href={l.url} target="_blank" rel="noopener noreferrer" style={{ ...s.fileMeta, color: "#DB3433", overflowWrap: "anywhere", display: "block" }}>{l.url}</a>
+          </div>
+          <button onClick={() => { setEditingId(l.id); setForm({ title: l.title, url: l.url }); setError(""); }} style={s.ghostBtn}>Edit</button>
+          <button onClick={() => remove(l)} style={s.dangerBtn}>Delete</button>
+        </div>
+      ))}
+
+      <form onSubmit={save} style={{ ...s.row, marginTop: 10 }}>
+        <input value={form.title} onChange={(e) => { setForm({ ...form, title: e.target.value }); setError(""); }}
+          placeholder="Title, e.g. Research Writing Test" style={{ ...s.input, flex: 1, minWidth: 160 }} />
+        <input value={form.url} onChange={(e) => { setForm({ ...form, url: e.target.value }); setError(""); }}
+          placeholder="https://forms.gle/…" inputMode="url" style={{ ...s.input, flex: 1.4, minWidth: 180 }} />
+        <button type="submit" disabled={busy} style={s.primaryBtn}>{busy ? "Saving…" : editingId ? "Save link" : "+ Add link"}</button>
+        {editingId && <button type="button" onClick={() => { setEditingId(null); setForm({ title: "", url: "" }); setError(""); }} style={s.ghostBtn}>Cancel</button>}
+      </form>
+      {error && <p style={s.error}>{error}</p>}
     </div>
   );
 }
@@ -546,6 +612,8 @@ const s = {
   uploadName: { flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: "#1F2937" },
   bar: { width: 140, height: 6, background: "#F3F4F6", borderRadius: 100, overflow: "hidden", flexShrink: 0 },
   barFill: { height: "100%", background: "#DB3433", transition: "width 0.2s" },
+  linksBox: { marginTop: 16, paddingTop: 14, borderTop: "1px dashed #E5E7EB" },
+  linksHead: { fontSize: "0.85rem", fontWeight: 700, color: "#1F2937", marginBottom: 4 },
   fileRow: { display: "flex", alignItems: "center", gap: 12, padding: "10px 0", borderTop: "1px solid #F3F4F6" },
   fileName: { fontWeight: 600, color: "#1F2937", fontSize: "0.85rem", overflowWrap: "anywhere" },
   fileMeta: { color: "#9CA3AF", fontSize: "0.74rem", marginTop: 3, lineHeight: 1.5 },

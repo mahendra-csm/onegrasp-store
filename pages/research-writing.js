@@ -18,6 +18,17 @@ const FileIcon = () => (
   </svg>
 );
 
+const LinkIcon = () => (
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#DB3433" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+  </svg>
+);
+
+function hostOf(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; }
+}
+
 export default function ResearchWriting() {
   const [status, setStatus] = useState("loading");
   const [folders, setFolders] = useState([]);
@@ -142,7 +153,10 @@ export default function ResearchWriting() {
                         <div style={s.folderIconWrap}><FolderIcon /></div>
                         <div style={{ minWidth: 0 }}>
                           <div style={s.folderName}>{f.name}</div>
-                          <div style={s.folderCount}>{f.files.length} {f.files.length === 1 ? "file" : "files"}</div>
+                          <div style={s.folderCount}>
+                            {f.files.length} {f.files.length === 1 ? "file" : "files"}
+                            {f.links.length > 0 && ` · ${f.links.length} ${f.links.length === 1 ? "link" : "links"}`}
+                          </div>
                         </div>
                       </button>
                     ))}
@@ -156,7 +170,17 @@ export default function ResearchWriting() {
                     <button onClick={() => setOpenId(null)} style={s.ghostBtn}>← All folders</button>
                     <h2 style={s.fileHeadTitle}>{openFolder.name}</h2>
                   </div>
-                  {openFolder.files.length === 0 ? (
+                  {openFolder.links.map((l) => (
+                    <div key={l.id} className="og-file-row" style={s.fileRow}>
+                      <LinkIcon />
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={s.fileName}>{l.title}</div>
+                        <div style={s.fileMeta}>{hostOf(l.url)}</div>
+                      </div>
+                      <a href={l.url} target="_blank" rel="noopener noreferrer" style={s.openBtn}>Open ↗</a>
+                    </div>
+                  ))}
+                  {openFolder.files.length === 0 && openFolder.links.length === 0 ? (
                     <p style={{ ...s.muted, padding: 24 }}>This folder is empty.</p>
                   ) : (
                     openFolder.files.map((file) => (
@@ -234,6 +258,10 @@ const s = {
   fileRow: { display: "flex", alignItems: "center", gap: 14, padding: "14px 20px", borderBottom: "1px solid #F3F4F6" },
   fileName: { fontFamily: font, fontWeight: 600, color: "#1F2937", fontSize: "0.88rem", overflowWrap: "anywhere" },
   fileMeta: { fontFamily: font, color: "#9CA3AF", fontSize: "0.74rem", marginTop: 2 },
+  openBtn: {
+    background: "#DB3433", color: "#FFFFFF", padding: "10px 18px", borderRadius: 999, textDecoration: "none",
+    fontFamily: font, fontWeight: 700, fontSize: "0.8rem", whiteSpace: "nowrap", flexShrink: 0,
+  },
   dlBtn: {
     background: "#0E0E11", color: "#FFFFFF", padding: "10px 18px", borderRadius: 999, textDecoration: "none",
     fontFamily: font, fontWeight: 700, fontSize: "0.8rem", whiteSpace: "nowrap", flexShrink: 0,

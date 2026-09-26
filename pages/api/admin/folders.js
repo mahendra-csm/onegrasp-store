@@ -34,6 +34,7 @@ export default async function handler(req, res) {
       const removed = await updateDb((db) => {
         const files = db.files.filter((f) => f.folderId === id);
         db.files = db.files.filter((f) => f.folderId !== id);
+        db.links = db.links.filter((l) => l.folderId !== id);
         db.folders = db.folders.filter((f) => f.id !== id);
         db.coupons.forEach((c) => { if (c.folderIds) c.folderIds = c.folderIds.filter((x) => x !== id); });
         return files;

@@ -17,6 +17,9 @@ export default async function handler(req, res) {
       files: db.files
         .filter((x) => x.folderId === f.id)
         .map(({ id, name, size, uploadedAt }) => ({ id, name, size, uploadedAt })),
+      links: db.links
+        .filter((l) => l.folderId === f.id)
+        .map(({ id, title, url }) => ({ id, title, url })),
     }));
 
   res.status(200).json({ folders });
