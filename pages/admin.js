@@ -124,7 +124,7 @@ export default function Admin() {
             )}
 
             <div style={s.tabs}>
-              {[["materials", `Materials (${state.files.length})`], ["coupons", `Coupons (${state.coupons.length})`]].map(([k, label]) => (
+              {[["materials", `Materials (${state.folders.length} folder${state.folders.length === 1 ? "" : "s"} · ${state.files.length} file${state.files.length === 1 ? "" : "s"})`], ["coupons", `Coupons (${state.coupons.length})`]].map(([k, label]) => (
                 <button key={k} onClick={() => setTab(k)} style={tab === k ? s.tabOn : s.tab}>{label}</button>
               ))}
             </div>
