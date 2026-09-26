@@ -33,7 +33,7 @@ export default function Footer() {
           <div className="og2-footer-col">
             <h4>Contact</h4>
             <a href="mailto:support@onegrasp.com">support@onegrasp.com</a>
-            <a href="tel:+918977760441">+91 89777 60441</a>
+            
             <a href="tel:+918977760442">+91 89777 60442</a>
             <a href="tel:+918977760443">+91 89777 60443</a>
             <span>Hyderabad, Telangana, India</span>

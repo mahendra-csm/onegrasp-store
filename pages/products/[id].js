@@ -4,6 +4,7 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import PageHero from "../../components/PageHero";
+import { RW_BATCH, RW_TITLE } from "../../lib/format";
 
 const PRODUCTS_DATA = {
   "research-guide": {
@@ -111,13 +112,8 @@ const PRODUCTS_DATA = {
   },
 };
 
-const OTHER = {
-  "research-guide": "research-topics",
-  "research-topics": "research-guide",
-  "digital-product": "financial-literacy",
-  "financial-literacy": "researcher-to-entrepreneur",
-  "researcher-to-entrepreneur": "digital-product",
-};
+// Same order as the homepage toolkit; Research Writing is the highlighted coupon folder.
+const TOOLKIT_ORDER = ["research-guide", "research-topics", "researcher-to-entrepreneur", "digital-product", "financial-literacy"];
 
 const STATIC_META = [
   { icon: "🎓", val: "Expert", lbl: "Curated" },
@@ -130,8 +126,7 @@ export default function ProductPage() {
   const router = useRouter();
   const { id } = router.query;
   const product = id ? PRODUCTS_DATA[id] : null;
-  const otherId = id ? OTHER[id] : null;
-  const otherProduct = otherId ? PRODUCTS_DATA[otherId] : null;
+  const others = TOOLKIT_ORDER.filter((pid) => pid !== id);
 
   if (!product) {
     return (
@@ -281,21 +276,48 @@ export default function ProductPage() {
                     Need help?{" "}
                     <a href="mailto:support@onegrasp.com" style={s.supportLink}>support@onegrasp.com</a>
                     {" · "}
-                    <a href="tel:+918977760441" style={s.supportLink}>+91 89777 60441</a>
+                    <a href="tel:+918977760442" style={s.supportLink}>+91 89777 60442</a>
                   </p>
                 </div>
               </div>
 
-              {/* Also available */}
-              {otherProduct && (
-                <div style={s.alsoCard}>
-                  <p style={s.alsoLabel}>Also Available</p>
-                  <p style={s.alsoName}>{otherProduct.name}</p>
-                  <Link href={`/products/${otherId}`} style={s.alsoBtn}>View Product →</Link>
-                </div>
-              )}
             </div>
           </div>
+
+          <section className="og2-more">
+            <h2 className="og2-more-title">More from the toolkit</h2>
+            <div className="og2-grid">
+              <Link href="/research-writing" className="og2-tile og2-tile-sm og2-t-dark">
+                <div className="og2-tile-top">
+                  <span className="og2-tag">Programme materials</span>
+                  <span className="og2-chip">{RW_BATCH} batch</span>
+                </div>
+                <h3>{RW_TITLE}</h3>
+                <p>The complete batch folder — unlock it with your coupon code.</p>
+                <div className="og2-tile-foot">
+                  <span className="og2-price">Coupon access</span>
+                  <span className="og2-arrow" aria-hidden="true">→</span>
+                </div>
+              </Link>
+              {others.map((pid) => {
+                const p = PRODUCTS_DATA[pid];
+                return (
+                  <Link key={pid} href={`/products/${pid}`} className="og2-tile og2-tile-sm">
+                    <div className="og2-tile-top">
+                      <span className="og2-tag">{p.category}</span>
+                      <span className="og2-chip">{p.badge}</span>
+                    </div>
+                    <h3>{p.name}</h3>
+                    <p>{p.tagline}</p>
+                    <div className="og2-tile-foot">
+                      <span className="og2-price">₹{p.price.toLocaleString("en-IN")}<small>on request</small></span>
+                      <span className="og2-arrow" aria-hidden="true">→</span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
         </div>
       </main>
 
@@ -396,22 +418,4 @@ const s = {
   },
   supportText: { fontSize: "0.75rem", color: "#6B7280", fontFamily: "'Poppins', sans-serif", lineHeight: 1.6 },
   supportLink: { color: "#DB3433", textDecoration: "none", fontWeight: 600 },
-
-  alsoCard: {
-    background: "#F5F5F6", border: "1px solid #E7E7EA",
-    borderRadius: "24px", padding: "20px 22px",
-  },
-  alsoLabel: {
-    fontSize: "0.68rem", color: "#9CA3AF", fontWeight: 700,
-    fontFamily: "'Poppins', sans-serif", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "6px",
-  },
-  alsoName: {
-    fontSize: "0.85rem", fontWeight: 700, color: "#1F2937",
-    fontFamily: "'Poppins', sans-serif", marginBottom: "10px", lineHeight: 1.4,
-  },
-  alsoBtn: {
-    display: "inline-flex", alignItems: "center", color: "#DB3433",
-    textDecoration: "none", fontSize: "0.8rem", fontWeight: 700,
-    fontFamily: "'Poppins', sans-serif",
-  },
 };

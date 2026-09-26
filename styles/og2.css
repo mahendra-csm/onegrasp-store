@@ -278,6 +278,16 @@ em { font-style: normal; }
 
 button:disabled { opacity: .6; cursor: not-allowed; }
 
+/* "More from the toolkit" on product pages */
+.og2-more { margin-top: 48px; }
+.og2-more-title { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 18px; }
+.og2-tile-sm { min-height: 0; padding: 22px; }
+.og2-tile-sm .og2-tile-top { margin-bottom: 20px; }
+.og2-tile-sm .og2-tag { margin-bottom: 0; }
+.og2-tile-sm h3 { font-size: 1.1rem; }
+.og2-tile-sm p { margin-bottom: 18px; }
+.og2-tile-sm .og2-arrow { width: 38px; height: 38px; font-weight: 700; }
+
 /* Existing product/coupon buttons, restyled as pills */
 .og-buy-btn, .og-request-btn { border-radius: 999px; }
 .og-buy-btn { box-shadow: 0 12px 28px -12px rgba(219,52,51,.6); }

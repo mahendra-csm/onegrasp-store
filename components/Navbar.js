@@ -28,9 +28,9 @@ export default function Navbar() {
         </nav>
 
         <div className="og2-nav-right">
-          <a href="tel:+918977760441" className="og2-nav-cta">
+          <a href="tel:+918977760442" className="og2-nav-cta">
             <span className="og2-nav-cta-dot" />
-            +91 89777 60441
+            +91 89777 60442
           </a>
           <button className="og2-burger" onClick={() => setOpen(!open)} aria-label="Toggle menu" aria-expanded={open}>
             <span style={{ transform: open ? "translateY(4px) rotate(45deg)" : "none" }} />
@@ -48,7 +48,7 @@ export default function Navbar() {
               <Link key={l.label} href={l.href} onClick={() => setOpen(false)}>{l.label}</Link>
             )
           )}
-          <a href="tel:+918977760441" className="og2-menu-phone" onClick={() => setOpen(false)}>Call +91 89777 60441</a>
+          <a href="tel:+918977760442" className="og2-menu-phone" onClick={() => setOpen(false)}>Call +91 89777 60442</a>
         </div>
       )}
     </header>
